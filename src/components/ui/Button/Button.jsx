@@ -1,9 +1,14 @@
-import React from 'react'
+// src/components/ui/Button/Button.jsx
+'use client';
 
-const Button = () => {
+export default function Button({ children, onClick, ...props }) {
   return (
-    <div>Button</div>
-  )
+    <button
+      onClick={onClick}
+      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      {...props}
+    >
+      {children}
+    </button>
+  );
 }
-
-export default Button

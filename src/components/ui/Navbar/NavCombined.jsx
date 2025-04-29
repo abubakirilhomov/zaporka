@@ -1,9 +1,14 @@
-import React from 'react'
+// src/components/ui/Navbar/NavCombined.jsx
+'use client';
 
-const NavCombined = () => {
+import NavDesktop from './NavDesktop';
+import NavMobile from './NavMobile';
+
+export default function NavCombined() {
   return (
-    <div>NavCombined</div>
-  )
+    <>
+      <NavDesktop />
+      <NavMobile />
+    </>
+  );
 }
-
-export default NavCombined

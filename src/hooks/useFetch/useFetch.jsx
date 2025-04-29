@@ -1,95 +1,29 @@
-import { useState, useEffect, useCallback } from "react";
+// src/hooks/useFetch/useFetch.jsx
+'use client';
 
-const useFetch = (url, options = {}, autoFetch = true) => {
+import { useState, useEffect } from 'react';
+
+export default function useFetch(url) {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(autoFetch);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(
-    async (overrideOptions = {}) => {
-      const controller = new AbortController();
-      const signal = controller.signal;
-
-      setLoading(true);
-      setError(null);
-
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(url, {
-          ...options,
-          ...overrideOptions,
-          signal, // Ensure signal is always included
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-
-        // Check if response is JSON
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const result = await response.json();
-          setData(result);
-          return result;
-        } else {
-          throw new Error("Response is not JSON");
-        }
+        setLoading(true);
+        const response = await fetch(url);
+        const result = await response.json();
+        setData(result);
       } catch (err) {
-        if (err.name !== "AbortError") {
-          setError(err.message);
-        }
-        throw err; // Re-throw to allow consumers to handle errors
+        setError(err);
       } finally {
         setLoading(false);
       }
-
-      return { cancel: () => controller.abort() }; // Return cancel function
-    },
-    [url, JSON.stringify(options)] // Serialize options to avoid reference issues
-  );
-
-  useEffect(() => {
-    let controller;
-    if (autoFetch) {
-      controller = new AbortController();
-      fetchData({ signal: controller.signal });
-    }
-    return () => {
-      if (controller) controller.abort(); // Cleanup on unmount
     };
-  }, [fetchData, autoFetch]);
 
-  const revalidate = () => fetchData();
+    fetchData();
+  }, [url]);
 
-  const sendRequest = async (method, body = null, customOptions = {}) => {
-    const requestOptions = {
-      method,
-      ...(body && {
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      }),
-      ...customOptions,
-    };
-    return fetchData(requestOptions);
-  };
-
-  const postData = (body, customOptions) =>
-    sendRequest("POST", body, customOptions);
-  const putData = (body, customOptions) => sendRequest("PUT", body, customOptions);
-  const deleteData = (customOptions) => sendRequest("DELETE", null, customOptions);
-  const patchData = (body, customOptions) =>
-    sendRequest("PATCH", body, customOptions);
-
-  return {
-    data,
-    loading,
-    error,
-    revalidate,
-    postData,
-    putData,
-    deleteData,
-    patchData,
-    sendRequest,
-  };
-};
-
-export default useFetch;
+  return { data, loading, error };
+}

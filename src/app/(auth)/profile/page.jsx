@@ -1,9 +1,22 @@
-import React from 'react'
+// app/(auth)/profile/page.jsx
+'use client';
 
-const page = () => {
+import { useSelector } from 'react-redux';
+
+export default function Profile() {
+  const user = useSelector((state) => state.auth.user);
+
   return (
-    <div>page</div>
-  )
+    <div>
+      <h2 className="text-xl font-semibold mb-4">Your Profile</h2>
+      {user ? (
+        <>
+          <p>Email: {user.email}</p>
+          <p>Name: {user.name}</p>
+        </>
+      ) : (
+        <p>Please log in to view your profile.</p>
+      )}
+    </div>
+  );
 }
-
-export default page
