@@ -6,12 +6,13 @@ import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md';
 
 export default function Footer() {
   return (
-    <footer className="neutral-content		 text-neutral-content py-10 px-4">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8">
+<footer className="bg-[#89aa] text-neutral-content py-10 px-4">
+
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Каталог */}
         <div>
           <h3 className="font-bold uppercase mb-3">Каталог</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm">
             <li><a href="#" className="hover:underline">Акции</a></li>
             <li><a href="#" className="hover:underline">Услуги</a></li>
             <li><a href="#" className="hover:underline">Бренды</a></li>
@@ -21,7 +22,7 @@ export default function Footer() {
         {/* Компания */}
         <div>
           <h3 className="font-bold uppercase mb-3">Компания</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm">
             <li><a href="#" className="hover:underline">О компании</a></li>
             <li><a href="#" className="hover:underline">Новости</a></li>
             <li><a href="#" className="hover:underline">Отзывы</a></li>
@@ -32,22 +33,22 @@ export default function Footer() {
         {/* Информация */}
         <div>
           <h3 className="font-bold uppercase mb-3">Информация</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm">
             <li><a href="#" className="hover:underline">Магазины</a></li>
             <li><a href="#" className="hover:underline">Производители</a></li>
           </ul>
         </div>
 
-        {/* Сервис + Контакты */}
-        <div className="md:col-span-2 flex flex-col space-y-4">
+        {/* Контакты и подписка */}
+        <div className="flex flex-col space-y-3">
           <h3 className="font-bold uppercase">Сервис</h3>
 
-          <a href="tel:+78125092908" className="flex items-center space-x-2 hover:underline">
+          <a href="tel:+78125092908" className="flex items-center space-x-2 text-sm hover:underline">
             <MdPhone />
             <span>+7 (812) 509-29-08</span>
           </a>
 
-          <a href="mailto:zarmaturaru@mail.ru" className="flex items-center space-x-2 hover:underline">
+          <a href="mailto:zarmaturaru@mail.ru" className="flex items-center space-x-2 text-sm hover:underline">
             <MdEmail />
             <span>zarmaturaru@mail.ru</span>
           </a>
@@ -56,38 +57,39 @@ export default function Footer() {
             href="https://www.google.com/maps/search/?api=1&query=Санкт-Петербург+Петергофское+шоссе,+756"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-2 hover:underline"
+            className="flex items-center space-x-2 text-sm hover:underline"
           >
             <MdLocationOn />
             <span>г. Санкт-Петербург, Петергофское шоссе, 756</span>
           </a>
 
-          <form className="mt-4 flex">
+          <form className="mt-4 flex flex-col sm:flex-row gap-2">
             <input
               type="email"
-              placeholder="Подписаться на рассылку"
-              className="input input-bordered rounded-l w-full text-black"
+              placeholder="Ваш email"
+              className="input input-bordered w-full sm:flex-1 text-black"
             />
-            <button type="submit" className="btn btn-primary rounded-l-none">→</button>
+            <button type="submit" className="btn btn-primary w-full sm:w-auto">Подписаться</button>
           </form>
         </div>
       </div>
 
-      {/* Bottom */}
+      {/* Нижняя часть */}
       <div className="border-t border-gray-700 mt-10 pt-6 text-sm text-center">
-        <p className="mb-3">
-          2025 © Запорная арматура.РУ – клапана, задвижки, затворы,{" "}
-          <a href="#" className="text-blue-400 hover:underline">водоподготовка</a>, кабель оптом со склада{" "}
-          <a href="#" className="text-blue-400 hover:underline">СПб</a>
+        <p className="mb-3 px-2">
+          2025 © Запорная арматура.РУ – клапана, задвижки, затворы,
+          <a href="#" className="text-blue-400 hover:underline ml-1">водоподготовка</a>,
+          кабель оптом со склада
+          <a href="#" className="text-blue-400 hover:underline ml-1">СПб</a>
         </p>
-        <div className="flex justify-center space-x-4 items-center">
-          <FaCcVisa size={28} />
-          <FaCcMastercard size={28} />
-          <FaPaypal size={28} />
+        <div className="flex justify-center items-center space-x-4">
+          <FaCcVisa size={26} />
+          <FaCcMastercard size={26} />
+          <FaPaypal size={26} />
           <Image
             src="/icons/mir.png"
             alt="Мир"
-            width={40}
+            width={36}
             height={24}
             className="object-contain"
           />
