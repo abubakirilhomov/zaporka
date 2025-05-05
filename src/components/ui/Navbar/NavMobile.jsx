@@ -7,7 +7,7 @@ import { useSelector, useState } from 'react';
 export default function NavMobile() {
 
   return (
-    <nav className="bg-blue-500 text-white p-4 md:hidden">
+    <nav className="bg-primary text-white p-4 md:hidden">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
           My Shop

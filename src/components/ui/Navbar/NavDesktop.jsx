@@ -9,7 +9,7 @@ export default function NavDesktop() {
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <nav className="bg-blue-500 text-white p-4 hidden md:block">
+    <nav className="bg-secondary text-primary p-4 hidden md:block">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
           My Shop
