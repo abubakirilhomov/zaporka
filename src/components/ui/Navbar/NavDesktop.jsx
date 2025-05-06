@@ -60,6 +60,8 @@ export default function NavDesktop() {
     document.body.style.overflow = '';
   };
 
+  //shnaqa
+
   return (
     <>
       <nav className=" text-base-300 p-5 hidden md:block sticky z-50 pr-20 items-center">
