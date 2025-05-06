@@ -20,7 +20,7 @@ export default function NavDesktop() {
     <>
       <nav className="bg-gray-200 text-base-300 p-3 hidden md:block sticky z-50">
         <div className="container mx-auto flex gap-8 justify-start items-center relative">
-          <Image src={logo} alt="Logo" width={120} height={100} />
+          <Image src={logo} alt="Logo" width={120} height={100} className='cursor-pointer' />
 
           <label className="input border-1 rounded-2xl w-full border-success">
             <input type="search" required placeholder="Поиск" />
