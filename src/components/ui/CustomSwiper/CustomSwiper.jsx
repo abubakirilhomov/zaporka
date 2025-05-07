@@ -49,7 +49,7 @@ const BannerSwiper = ({ slides }) => {
       </Swiper>
 
       {/* Custom Navigation Buttons */}
-      <button className="swiper-button-prev-banner absolute top-1/2 left-4 transform -translate-y-1/2 bg-white rounded-full p-3 hover:bg-neutral-100 transition-colors duration-300 z-10">
+      <button className="swiper-button-prev-banner hidden md:block absolute top-1/2 left-4 transform -translate-y-1/2 bg-white rounded-full p-3 hover:bg-neutral-100 transition-colors duration-300 z-10">
         <svg
           className="w-6 h-6 text-neutral-600"
           fill="none"
@@ -65,7 +65,7 @@ const BannerSwiper = ({ slides }) => {
           />
         </svg>
       </button>
-      <button className="swiper-button-next-banner absolute top-1/2 right-4 transform -translate-y-1/2 bg-white rounded-full p-3 hover:bg-neutral-100 transition-colors duration-300 z-10">
+      <button className="swiper-button-next-banner hidden md:block absolute top-1/2 right-4 transform -translate-y-1/2 bg-white rounded-full p-3 hover:bg-neutral-100 transition-colors duration-300 z-10">
         <svg
           className="w-6 h-6 text-neutral-600"
           fill="none"
