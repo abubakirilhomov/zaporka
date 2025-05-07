@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 
 const CatalogCard = ({ categories }) => {
   return (
-    <div className="md:gap-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-0.5">
+    <div className="md:gap-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-1">
       {categories.map((category) => {
-        // State to track image loading for each category
         const [isImageLoaded, setIsImageLoaded] = useState(false);
 
         return (
@@ -21,7 +20,7 @@ const CatalogCard = ({ categories }) => {
           >
             <Link
               href={`/catalog/${category._id}`}
-              className="p-6 sm:p-8 flex-1 h-full border border-neutral-300 flex flex-col justify-between items-center"
+              className="p-6 sm:p-8 flex-1 h-full border border-neutral-400 md:rounded flex flex-col justify-between items-center"
             >
               <div className="relative w-full h-32 mb-3">
                 {!isImageLoaded && (
@@ -45,7 +44,7 @@ const CatalogCard = ({ categories }) => {
               >
                 {category.name}
               </motion.span>
-              <p className="text-neutral-500 md:text-sm text-xs text-center pt-3 line-clamp-1">
+              <p className="text-neutral-500 md:text-sm text-xs text-center pt-3 line-clamp-2">
                 {category.amount
                   ? `${category.amount} товаров`
                   : "Неизвестное количество товаров"}

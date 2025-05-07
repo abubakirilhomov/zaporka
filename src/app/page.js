@@ -1,5 +1,9 @@
+import Catalog from "@/components/shop/Catalog/Catalog";
 import CustomSwiper from "@/components/ui/CustomSwiper/CustomSwiper";
+import Footer from "@/components/ui/Footer/Footer";
+import NavCombined from "@/components/ui/Navbar/NavCombined";
 import NavDesktop from "@/components/ui/Navbar/NavDesktop";
+import NavMobile from "@/components/ui/Navbar/NavMobile";
 
 export default function Home() {
   const slides = [
@@ -21,8 +25,16 @@ export default function Home() {
   ];
   return (
     <>
-    <NavDesktop/>
-    <CustomSwiper slides={slides}/>
+    <header>
+      <NavCombined/>
+      <CustomSwiper slides={slides}/>
+    </header>
+    <main className="px-3">
+      <Catalog/>
+    </main>
+    <footer>
+      <Footer />
+    </footer>
     </>
   );
 }

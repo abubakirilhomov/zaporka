@@ -4,7 +4,7 @@ import Loading from '@/components/ui/Loading/Loading';
 import useFetch from '@/hooks/useFetch/useFetch';
 import React from 'react';
 
-const Page = () => {
+const Catalog = () => {
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const { data: categories, loading, error } = useFetch(`${serverUrl}/api/v1/categories`);
 
@@ -33,4 +33,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Catalog;
