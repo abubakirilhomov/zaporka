@@ -34,7 +34,6 @@ export default function NavMobile() {
   return (
     <nav className="bg-base-100 text-base-content p-3 sticky top-0 z-50 shadow-sm md:hidden">
       <div className="flex flex-col gap-3">
-        {/* Top Row: Logo + Phone + Cart + Login */}
         <div className="flex items-center justify-between gap-3">
           <Link href="/">
             <Image
@@ -52,11 +51,13 @@ export default function NavMobile() {
               <IoMdArrowDropdown className="text-lg" />
             </p>
             <div className="absolute left-0 mt-1 w-32 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out bg-base-content p-2 rounded-lg shadow-lg z-10">
-              <p className="text-sm text-black text-center">{phoneNumber}</p>
+            <Link href="https://voice.google.com/u/0/calls" passHref legacyBehavior>
+                  <a rel='noopener norferrer' target='_blank' className='bg-base-300 text-base-content rounded-2xl '>{phoneNumber}</a>
+              </Link>
             </div>
           </div>
 
-          <Link href="/cart" className="relative inline-flex items-center">
+          <Link href="#" className="relative inline-flex items-center">
             <span className="text-sm font-medium"><FiShoppingCart />
             </span>
             {cartItemCount > 0 && (
@@ -75,7 +76,6 @@ export default function NavMobile() {
           </button>
         </div>
 
-        {/* Search Input */}
         <label className="input border border-primary rounded-full w-full flex items-center px-3 py-2">
           <input
             type="search"
@@ -96,7 +96,6 @@ export default function NavMobile() {
         </label>
       </div>
 
-      {/* Modal Dialog */}
       <dialog ref={dialogRef} className="modal rounded-lg p-6 w-full max-w-sm bg-base-content shadow-xl">
         <form method="dialog" className="space-y-4">
           <div className="flex justify-between items-center">
