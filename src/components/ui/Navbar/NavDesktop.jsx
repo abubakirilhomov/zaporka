@@ -11,7 +11,7 @@ import { IoMdCall } from "react-icons/io";
 
 export default function NavDesktop() {
   const [windowWidth, setWindowWidth] = useState(0);
-  const modalRef = useRef(null); // ✅ Ref for dialog
+  const modalRef = useRef(null); 
 
   const cartItems = useSelector((state) => state.cart.items);
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -62,22 +62,22 @@ export default function NavDesktop() {
             </label>
           </div>
 
-          <div className="relative group cursor-pointer">
+          <div className="relative group cursor-pointer p-1 rounded-xl border-2 border-success ">
               <p
               
                 className="text-sm text-base-content font-bold rounded-full p-1 flex gap-2 items-center"
               >
-                <IoMdCall />{phoneNumber}<IoMdArrowDropdown />
+                <IoMdCall className='text-success'/>Позвонить<IoMdArrowDropdown />
               </p>
 
-            <div className="absolute left-0 mt-1 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out bg-base-300 p-1 rounded shadow z-10">
+            <div className="absolute left-0  pl-5 pr-5 h-8  opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out bg-base-300 p-1 rounded shadow z-10 ml-3 mt-3 ">
               <Link href="https://voice.google.com/u/0/calls" passHref legacyBehavior>
-                  <a rel='noopener norferrer' target='_blank' className='bg-base-300 text-base-content rounded-2xl '>{phoneNumber}</a>
+                  <a rel='noopener norferrer' target='_blank' className='bg-base-300 text-success font-medium rounded-2xl '>{phoneNumber}</a>
               </Link>
             </div>
           </div>
 
-          <div className='flex items-center gap-10'>
+          <div className='flex items-center gap-10 p-1 pl-2 pr-2 rounded-xl border-2 border-error '>
             <button className="cursor-pointer flex items-center gap-2 text-base-content" onClick={handleOpenModal}>
               <FaUserCircle /> Войти
             </button>
@@ -120,7 +120,7 @@ export default function NavDesktop() {
                       <input type="checkbox" defaultChecked className="toggle toggle-sm bg-info" />
                       <span className='text-base-content'>Запомнить меня</span>
                     </label>
-                    <Link href="#" className="hover:underline text-base-content">ЗАБЫЛИ ПАРОЛЬ?</Link>
+                    <Link href="#" className="hover:underline text-info">ЗАБЫЛИ ПАРОЛЬ?</Link>
                   </div>
 
                   <div className="flex gap-2 justify-between mt-4">
