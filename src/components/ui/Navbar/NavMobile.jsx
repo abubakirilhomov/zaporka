@@ -59,7 +59,7 @@ export default function NavMobile() {
             </svg>
           </label>
 
-          <div className="border-2 border-error rounded-xl px-3 py-1">
+          <div className="border rounded-xl px-3 py-1.5">
             <button onClick={handleOpenModal} className="flex items-center gap-1 text-base-content">
               <FaUserCircle />
               Войти
