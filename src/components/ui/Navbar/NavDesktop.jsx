@@ -42,7 +42,7 @@ export default function NavDesktop() {
 
   return (
     <>
-      <nav className="text-base-300 p-5 hidden md:block sticky z-50 pr-20 items-center shadow-xs shadow-base-content">
+      <nav className="text-base-300 p-5 hidden md:block sticky z-50 pr-20 items-center shadow-xs">
         <div className='flex justify-between items-center gap-10'>
           <div className="container mx-auto flex gap-8 justify-start items-center relative left-10">
             <Image src={logo} alt="Logo" width={150} height={150} className='cursor-pointer' />
