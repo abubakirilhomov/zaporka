@@ -42,7 +42,7 @@ export default function NavDesktop() {
 
   return (
     <>
-      <nav className="text-base-300 p-5 hidden md:block sticky z-50 pr-20 items-center shadow-xs shadow-base-content">
+      <nav className="text-base-300 p-5 hidden md:block sticky z-50 pr-20 items-center shadow-xs">
         <div className='flex justify-between items-center gap-10'>
           <div className="container mx-auto flex gap-8 justify-start items-center relative left-10">
             <Image src={logo} alt="Logo" width={150} height={150} className='cursor-pointer' />
@@ -62,7 +62,7 @@ export default function NavDesktop() {
             </label>
           </div>
 
-          <div className="relative group cursor-pointer p-1 rounded-xl border-2 border-success ">
+          <div className="relative group cursor-pointer p-1 rounded-xl border-2">
               <p
               
                 className="text-sm text-base-content font-bold rounded-full p-1 flex gap-2 items-center"
@@ -77,7 +77,7 @@ export default function NavDesktop() {
             </div>
           </div>
 
-          <div className='flex items-center gap-10 p-1 pl-2 pr-2 rounded-xl border-2 border-error '>
+          <div className='flex items-center gap-10 p-1 pl-2 pr-2 rounded-xl border-2'>
             <button className="cursor-pointer flex items-center gap-2 text-base-content" onClick={handleOpenModal}>
               <FaUserCircle /> Войти
             </button>
