@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaCcVisa, FaCcMastercard, FaPaypal } from 'react-icons/fa';
 import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md';
 
 export default function Footer() {
   return (
-<footer className="bg-[#89aa] text-neutral-content py-10 px-4">
+<footer className="bg-base-200 text-neutral-content py-10 px-4">
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Каталог */}
@@ -43,25 +44,25 @@ export default function Footer() {
         <div className="flex flex-col space-y-3">
           <h3 className="font-bold uppercase">Сервис</h3>
 
-          <a href="tel:+78125092908" className="flex items-center space-x-2 text-sm hover:underline">
+          <Link href="tel:+78125092908" className="flex items-center space-x-2 text-sm hover:underline">
             <MdPhone />
-            <span>+7 (812) 509-29-08</span>
-          </a>
+            <span>+998 99 177 66 91</span>
+          </Link>
 
-          <a href="mailto:zarmaturaru@mail.ru" className="flex items-center space-x-2 text-sm hover:underline">
+          <Link href="Zaporkauz@mail.ru" className="flex items-center space-x-2 text-sm hover:underline">
             <MdEmail />
-            <span>zarmaturaru@mail.ru</span>
-          </a>
+            <span>Zaporkauz@mail.ru</span>
+          </Link>
 
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Санкт-Петербург+Петергофское+шоссе,+756"
+          <Link
+            href="https://maps.windows.com/?form=WNAMSH&collection=point.41.211859_69.289576_Point"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 text-sm hover:underline"
           >
             <MdLocationOn />
-            <span>г. Санкт-Петербург, Петергофское шоссе, 756</span>
-          </a>
+            <span>Point</span>
+          </Link>
 
           <form className="mt-4 flex flex-col sm:flex-row gap-2">
             <input
