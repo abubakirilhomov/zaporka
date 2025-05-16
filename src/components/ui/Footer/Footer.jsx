@@ -1,14 +1,37 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaCcVisa, FaCcMastercard, FaPaypal } from 'react-icons/fa';
 import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md';
 
 export default function Footer() {
-  return (
-<footer className="bg-base-200 text-neutral-content py-10 px-4">
+  const [company, setCompany] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch('https://zaporka-backend.onrender.com/api/v1/company-info')
+      .then((res) => res.json())
+      .then((data) => {
+        setCompany(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Ошибка при получении данных:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  const phoneNumbers = company?.phoneNumbers || [];
+  const email = company?.email?.[0] || 'info@example.com';
+  const address = company?.companyAddress?.address || 'Адрес не найден';
+  const mapsLink = company?.companyAddress
+    ? `https://maps.google.com/?q=${company.companyAddress.latitude},${company.companyAddress.longitude}`
+    : '#';
+
+  return (
+    <footer className="bg-base-200 text-neutral-content py-10 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Каталог */}
         <div>
@@ -40,40 +63,32 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Контакты и подписка */}
+        {/* Контакты */}
         <div className="flex flex-col space-y-3">
           <h3 className="font-bold uppercase">Сервис</h3>
 
-          <Link href="tel:+78125092908" className="flex items-center space-x-2 text-sm hover:underline">
-            <MdPhone />
-            <span>+998 99 177 66 91</span>
-          </Link>
+          {loading ? (
+            <p className="text-sm text-gray-400">Загрузка контактов...</p>
+          ) : (
+            <>
+              {phoneNumbers.map((phone, i) => (
+                <Link key={i} href={`tel:${phone}`} className="flex items-center space-x-2 text-sm hover:underline">
+                  <MdPhone />
+                  <span>{phone}</span>
+                </Link>
+              ))}
 
-          <Link href="Zaporkauz@mail.ru" className="flex items-center space-x-2 text-sm hover:underline">
-            <MdEmail />
-            <span>Zaporkauz@mail.ru</span>
-          </Link>
+              <Link href={`mailto:${email}`} className="flex items-center space-x-2 text-sm hover:underline">
+                <MdEmail />
+                <span>{email}</span>
+              </Link>
 
-          <Link
-            href="https://maps.windows.com/?form=WNAMSH&collection=point.41.211859_69.289576_Point"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-2 text-sm hover:underline"
-          >
-            <MdLocationOn />
-            <span>Point</span>
-          </Link>
-
-          <form className="mt-4 flex flex-col sm:flex-row gap-2">
-            <input
-              type="email"
-              placeholder="Ваш email"
-              className="input input-bordered w-full sm:flex-1"
-            />
-            <button type="submit" className="btn btn-primary w-full sm:w-auto">
-              Подписаться
-            </button>
-          </form>
+              <Link href={mapsLink} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-sm hover:underline">
+                <MdLocationOn />
+                <span>{address}</span>
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
