@@ -1,14 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import { useRef, useState } from 'react';
-import { IoMdCall, IoMdArrowDropdown } from 'react-icons/io';
-import { FaUserCircle, FaBars } from 'react-icons/fa';
+import { FaUserCircle, FaBars, FaGift, FaTools, FaBuilding } from 'react-icons/fa';
+import { LuShoppingCart } from "react-icons/lu";
+import { CgProfile } from "react-icons/cg";
+import { MdCategory, MdContactPhone } from "react-icons/md";
+
+
+
+
 
 export default function NavMobile() {
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   const phoneNumber = '999001507';
   const modalRef = useRef(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -34,22 +38,30 @@ export default function NavMobile() {
     setDrawerOpen((prev) => !prev);
   };
 
+  const pages = [
+    { name: "Каталог", href: "/catalog", icon: <MdCategory /> },
+    { name: "Акции", href: "/discounts", icon: <FaGift /> },
+    { name: "Услуги", href: "/services", icon: <FaTools /> },
+    { name: "Проекты", href: "/projects", icon: <FaBuilding /> },
+    { name: "Компания", href: "/company", icon: <CgProfile /> },
+    { name: "Контакты", href: "/contacts", icon: <MdContactPhone /> },
+  ];
+
+
   return (
-    <nav className="md:hidden sticky top-0 z-50 bg-base-100 shadow-xs shadow-base-content px-4 py-3 border-b border-base-300">
+    <nav className="md:hidden sticky top-0 z-50 bg-base-100 shadow-xs px-4 py-3 border-b border-base-300">
       <div className="flex justify-between items-center">
-        {/* Replace logo with hamburger menu for mobile */}
         <button onClick={toggleDrawer} className="lg:hidden p-2">
           <FaBars className="text-xl" />
         </button>
 
-        {/* Phone number and login button */}
         <div className="flex items-center gap-4">
           <label className="input border rounded-2xl flex items-center w-[100%] h-10 ml-2 border-primary bg-base-100">
             <input
               type="search"
               required
               placeholder="Поиск"
-              className="text-base-content bg-transparent focus:outline-none  w-full"
+              className="text-base-content bg-transparent focus:outline-none w-full"
             />
             <svg className="h-3 w-3 text-base-content flex-shrink-0 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
@@ -69,20 +81,68 @@ export default function NavMobile() {
       </div>
 
       {isDrawerOpen && (
-        <div className="w-[50%] absolute rounded-2xl  flex justify-between items-start left-0 h-screen bg-base-300 bg-opacity-70 z-40  transition-all duration-500 ease-in-out">
-         <div className="flex flex-col items-start p-2">
-            <Link href="/" className="text-white py-2 pl-2">Pages</Link>
-            <Link href="/shop" className="text-white py-2 pl-2">Pages</Link>
-            <Link href="/about" className="text-white py-2 pl-2">Pages</Link>
-            <Link href="/contact" className="text-white py-2 pl-2">Pages</Link>
+        <div className="w-[70%]  absolute rounded-2xl overflow-x-auto flex justify-between items-start left-0 h-[100vh] bg-base-300  z-40 transition-all duration-500 ease-in-out">
+          <div className="flex flex-col items-start p-2 w-full">
+
+            {pages.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className="text-base-content my-4 pl-2 flex items-center justify-between w-full hover:bg-red-500 f "
+              >
+                <div className='flex flex-col w-full'>
+
+                  <div>
+                    <div className='flex items-center gap-2 mt-4'>
+                    <span className='relative bottom-5'>{item.icon}</span>
+
+                      <span className='font-bold relative bottom-5'>{item.name}</span>
+                    </div>
+                    <hr className="my-2 border border-base-100 w-full" />
+
+                  </div>
+                </div>
+              </Link>
+
+            ))}
+
+
+            <Link href="/" className="text-base-content py-5 pl-2 flex items-center justify-between w-full">
+              <span className='font-bold'>Личный кабинет</span>
+            </Link>
+            <hr className="my-2 border border-base-100 w-full" />
+
+
+            <Link href="/cart" className="text-base-content py-5 pl-2 flex items-center justify-between w-full">
+              <span><i className="fa-solid fa-cart-shopping mr-2  font-bold" /> Корзина</span>
+              <span className="badge badge-success badge-sm"><LuShoppingCart />
+              </span>
+
+            </Link>
+
+
+            <Link href="/saved" className="text-base-content py-5 pl-2 flex items-center justify-between w-full">
+              <span><i className="fa-regular fa-heart mr-2 font-bold" /> Отложенные</span>
+
+              <span className="badge badge-neutral badge-sm">Saved</span>
+
+            </Link>
+
+            <Link href="/compare" className="text-base-content py-5 pl-2 flex items-center justify-between w-full">
+              <span><i className="fa-solid fa-chart-column  text-xs font-bold" />Сравнение товаров</span>
+              <span className="badge badge-neutral badge-sm font-bold">  Сравнение</span>
+
+            </Link>
           </div>
-          <div className="flex justify-end p-4">
-            <button onClick={toggleDrawer} className="text-white text-xl">✕</button>
-          </div>         
+
+          <div className="flex justify-end pr-3 p-1 relative right-1">
+            <button onClick={toggleDrawer} className="text-base-content text-xl">✕</button>
+            {/* bjknl;' */}
+
+          </div>
         </div>
       )}
 
-      {/* Modal for login */}
       <dialog
         id="mobile_modal_login"
         className="modal"
@@ -94,8 +154,11 @@ export default function NavMobile() {
             <button className="btn btn-sm absolute right-2 top-2 btn-base-content">✕</button>
           </form>
 
-          <div className="text-center">
-            <p className="font-bold text-base-content mb-4 text-2xl">Личный кабинет</p>
+          <div className="text-center gap-2">
+<p className="flex items-center justify-center gap-2 font-bold text-base-content mb-4 text-2xl">
+  <CgProfile />
+  Личный кабинет
+</p>
           </div>
 
           <div className="space-y-4">
