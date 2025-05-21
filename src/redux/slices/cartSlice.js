@@ -1,3 +1,4 @@
+// redux/slices/cartSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
     phoneNumber: '',
     address: '',
   },
+  selectedProduct: null,
 };
 
 const cartSlice = createSlice({
@@ -35,13 +37,24 @@ const cartSlice = createSlice({
     },
     clearCart(state) {
       state.items = [];
+      state.selectedProduct = null;
     },
     setUserData(state, action) {
       state.userData = action.payload;
     },
+    setSelectedProduct(state, action) {
+      state.selectedProduct = action.payload;
+    },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart, setUserData } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+  setUserData,
+  setSelectedProduct,
+} = cartSlice.actions;
+
 export default cartSlice.reducer;

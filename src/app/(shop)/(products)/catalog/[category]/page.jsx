@@ -1,3 +1,4 @@
+// app/[category]/page.jsx
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -9,8 +10,8 @@ import Head from 'next/head';
 import { useState, useCallback, useEffect } from 'react';
 import ProductCard from '@/components/ui/ProductsCard/ProductsCard';
 import CartModal from '@/components/ui/CartModal/CartModal';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '@/redux/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedProduct } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 
@@ -18,8 +19,8 @@ const Page = () => {
   const { category } = useParams();
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const shouldReduceMotion = useReducedMotion();
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
+  const { selectedProduct } = useSelector((state) => state.cart);
 
   const { data: products, loading, error, refetch } = useFetch(
     `${serverUrl}/api/v1/products/by-category/${category}`,
@@ -62,15 +63,12 @@ const Page = () => {
       toast.error('Ошибка: некорректная цена товара');
       return;
     }
-    dispatch(
-      addToCart({
-        id: product._id || product.id,
-        title: product.title,
-        price,
-        quantity: 1,
-      })
-    );
-    setSelectedProduct(product);
+    dispatch(setSelectedProduct({
+      id: product._id || product.id,
+      title: product.title,
+      price,
+      currency: product.currency || '₽',
+    })); // Устанавливаем selectedProduct
     window.my_modal_1.showModal();
   };
 
@@ -116,7 +114,7 @@ const Page = () => {
         transition={{ duration: 0.4 }}
         className="container mx-auto md:px-4 sm:px-6 lg:px-8 py-8"
       >
-        <CartModal selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} />
+        <CartModal selectedProduct={selectedProduct} setSelectedProduct={(product) => dispatch(setSelectedProduct(product))} />
 
         <h1 className="text-3xl font-bold">Категория: {decodedCategory}</h1>
         <nav aria-label="Breadcrumb" className="pt-5">
@@ -174,7 +172,7 @@ const Page = () => {
                     motionProps={motionProps}
                     imageErrors={imageErrors}
                     setImageErrors={setImageErrors}
-                    setSelectedProduct={setSelectedProduct}
+                    setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
                     renderButton={() => (
                       <button
                         className="mt-3 btn w-full relative overflow-hidden

@@ -1,16 +1,20 @@
+// components/ui/CartModal/CartModal.jsx
 'use client';
 
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserData } from '@/redux/slices/cartSlice';
+import { setUserData, setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
 import { toast } from 'react-toastify';
 
 const CartModal = ({ selectedProduct, setSelectedProduct }) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const reduxSelectedProduct = useSelector((state) => state.cart.selectedProduct);
   const userData = useSelector((state) => state.cart.userData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const currentProduct = selectedProduct || reduxSelectedProduct;
+  const store = useSelector((state) => state.cart);
+  console.log('store', store);
 
   const [formData, setFormData] = useState({
     firstName: userData.firstName || '',
@@ -21,10 +25,19 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedProduct) return;
+    if (!currentProduct) {
+      toast.error('Товар не выбран');
+      return;
+    }
+
+    // Проверяем валидность формы
+    if (!e.target.checkValidity()) {
+      toast.error('Пожалуйста, заполните все поля корректно');
+      return;
+    }
 
     setIsSubmitting(true);
-    const totalPrice = Number(selectedProduct.price);
+    const totalPrice = Number(currentProduct.price);
     if (isNaN(totalPrice)) {
       toast.error('Ошибка: некорректная цена товара');
       setIsSubmitting(false);
@@ -32,14 +45,13 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
     }
 
     const orderData = {
-      products: [selectedProduct._id || selectedProduct.id], // Send array of ObjectId strings
+      products: [currentProduct._id || currentProduct.id], // Send array of ObjectId strings
       ...formData,
       totalPrice,
     };
 
     try {
-      localStorage.setItem('orderForm', JSON.stringify(formData));
-      dispatch(setUserData(formData));
+      dispatch(setUserData(formData)); // Сохраняем userData в Redux
       const response = await fetch(`${serverUrl}/api/v1/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -48,9 +60,18 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
       const data = await response.json();
       if (response.ok) {
         toast.success('Заказ успешно отправлен!');
+        // Добавляем selectedProduct в items
+        dispatch(
+          addToCart({
+            id: currentProduct._id || currentProduct.id,
+            title: currentProduct.title,
+            price: totalPrice,
+            quantity: 1,
+          })
+        );
+        dispatch(setSelectedProduct(null)); // Сбрасываем selectedProduct
+        setFormData({ firstName: '', lastName: '', phoneNumber: '', address: '' }); // Сбрасываем форму
         window.my_modal_1.close();
-        setFormData({ firstName: '', lastName: '', phoneNumber: '', address: '' });
-        setSelectedProduct(null);
       } else {
         throw new Error(data.message || 'Ошибка при оформлении заказа');
       }
@@ -62,10 +83,26 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
     }
   };
 
+  const handleClose = () => {
+    dispatch(setSelectedProduct(null)); // Очищаем selectedProduct
+    setFormData({
+      firstName: userData.firstName || '',
+      lastName: userData.lastName || '',
+      phoneNumber: userData.phoneNumber || '',
+      address: userData.address || '',
+    }); // Восстанавливаем formData из userData
+    window.my_modal_1.close();
+  };
+
   return (
     <dialog id="my_modal_1" className="modal">
       <div className="modal-box">
         <h3 className="font-bold text-lg mb-4">Оформление заказа</h3>
+        {currentProduct && (
+          <p className="mb-4">
+            Товар: {currentProduct.title} ({currentProduct.price} {currentProduct.currency})
+          </p>
+        )}
         <form className="space-y-3" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -83,14 +120,26 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             required
           />
-          <input
-            type="tel"
-            placeholder="Телефон"
-            className="input input-bordered w-full"
-            value={formData.phoneNumber}
-            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-            required
-          />
+          <div className="relative">
+            <span className="absolute z-20 inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+              +998 </span>
+            <input
+              type="tel"
+              className="input validator tabular-nums w-full"
+              placeholder="Телефон"
+              value={formData.phoneNumber}
+              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+              pattern="[0-9]*"
+              minLength="8"
+              maxLength="13"
+              title="Должно быть 8 цифр"
+              inputMode="numeric"
+              required
+            />
+            {formData.phoneNumber.length > 0 && formData.phoneNumber.length < 8  && (
+              <p className="validator-hint text-error text-sm mt-1">Должно быть 8 цифр</p>
+            )}
+          </div>
           <input
             type="text"
             placeholder="Адрес доставки"
@@ -125,7 +174,9 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
         </form>
         <div className="modal-action">
           <form method="dialog">
-            <button className="btn">Отмена</button>
+            <button className="btn" onClick={handleClose}>
+              Отмена
+            </button>
           </form>
         </div>
       </div>

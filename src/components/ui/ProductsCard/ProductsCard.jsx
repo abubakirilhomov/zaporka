@@ -1,9 +1,12 @@
+// components/ui/ProductsCard/ProductsCard.jsx
 'use client';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BsCartPlus } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
+import { setSelectedProduct } from '@/redux/slices/cartSlice';
 
 const ProductCard = ({
   product,
@@ -12,8 +15,8 @@ const ProductCard = ({
   imageErrors,
   setImageErrors,
   setSelectedProduct,
-  renderButton,
 }) => {
+  const dispatch = useDispatch();
   const productId =
     product._id || product.id || `${product.title}-${product.price}-${index}`;
   const imageSrc = product.mainImage || '/placeholder-image.png';
@@ -77,10 +80,6 @@ const ProductCard = ({
               <p>Рабочее давление: {product.workingPressure} бар</p>
             )}
           </div>
-        </Link>
-        {renderButton ? (
-          renderButton()
-        ) : (
           <button
             className="mt-3 btn w-full relative overflow-hidden
               bg-gradient-to-r from-blue-500 to-indigo-600
@@ -93,10 +92,14 @@ const ProductCard = ({
               group"
             onClick={(e) => {
               e.preventDefault();
-              setSelectedProduct(product);
+              dispatch(setSelectedProduct({
+                id: product._id || product.id,
+                title: product.title,
+                price: Number(product.price),
+                currency: product.currency || '₽',
+              }));
               window.my_modal_1.showModal();
             }}
-            aria-label={`Добавить ${product.title || 'товар'} в корзину`}
           >
             <span className="relative z-10">В корзину</span>
             <BsCartPlus
@@ -104,7 +107,7 @@ const ProductCard = ({
             />
             <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
           </button>
-        )}
+        </Link>
       </div>
     </motion.div>
   );
