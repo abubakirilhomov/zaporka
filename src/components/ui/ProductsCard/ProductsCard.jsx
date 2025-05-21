@@ -81,10 +81,7 @@ const ProductCard = ({
             )}
           </div>
           <button
-            className="mt-3 btn w-full relative overflow-hidden
-              bg-gradient-to-r from-blue-500 to-indigo-600
-              hover:from-blue-600 hover:to-indigo-700
-              text-white font-semibold py-3 px-6 rounded-xl
+            className="mt-3 btn w-full relative btn-primary font-semibold py-3 px-6 rounded-xl
               shadow-lg hover:shadow-xl
               transform transition-all duration-300 ease-in-out
               hover:scale-105 active:scale-95

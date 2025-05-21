@@ -11,7 +11,7 @@ import { useState, useCallback, useEffect } from 'react';
 import ProductCard from '@/components/ui/ProductsCard/ProductsCard';
 import CartModal from '@/components/ui/CartModal/CartModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedProduct } from '@/redux/slices/cartSlice';
+import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 
@@ -20,7 +20,7 @@ const Page = () => {
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const shouldReduceMotion = useReducedMotion();
   const dispatch = useDispatch();
-  const { selectedProduct } = useSelector((state) => state.cart);
+  const { selectedProduct, userData } = useSelector((state) => state.cart);
 
   const { data: products, loading, error, refetch } = useFetch(
     `${serverUrl}/api/v1/products/by-category/${category}`,
@@ -63,13 +63,56 @@ const Page = () => {
       toast.error('Ошибка: некорректная цена товара');
       return;
     }
-    dispatch(setSelectedProduct({
+
+    const productData = {
       id: product._id || product.id,
       title: product.title,
       price,
       currency: product.currency || '₽',
-    })); // Устанавливаем selectedProduct
-    window.my_modal_1.showModal();
+      quantity: 1,
+    };
+
+    // Check if userData is complete
+    const isUserDataComplete =
+      userData.firstName &&
+      userData.lastName &&
+      userData.phoneNumber &&
+      userData.address;
+
+    if (isUserDataComplete) {
+      // If userData exists, add to cart directly and send order to server
+      dispatch(addToCart(productData));
+      toast.success(`${product.title} добавлен в корзину!`);
+
+      // Send order to server
+      const orderData = {
+        products: [productData.id], // Send array of ObjectId strings
+        ...userData,
+        totalPrice: price,
+      };
+
+      fetch(`${serverUrl}/api/v1/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.success) {
+            throw new Error(data.message || 'Ошибка при оформлении заказа');
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error(err.message || 'Ошибка при оформлении заказа');
+          // Optionally remove the item from cart if the server request fails
+          dispatch(removeFromCart(productData.id));
+        });
+    } else {
+      // If userData is incomplete, open the modal
+      dispatch(setSelectedProduct(productData));
+      window.my_modal_1.showModal();
+    }
   };
 
   const motionProps = shouldReduceMotion
@@ -175,10 +218,7 @@ const Page = () => {
                     setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
                     renderButton={() => (
                       <button
-                        className="mt-3 btn w-full relative overflow-hidden
-                          bg-gradient-to-r from-blue-500 to-indigo-600
-                          hover:from-blue-600 hover:to-indigo-700
-                          text-white font-semibold py-3 px-6 rounded-xl
+                        className="mt-3 btn w-full relative overflow-hidden btn-primary font-semibold py-3 px-6 rounded-xl
                           shadow-lg hover:shadow-xl
                           transform transition-all duration-300 ease-in-out
                           hover:scale-105 active:scale-95

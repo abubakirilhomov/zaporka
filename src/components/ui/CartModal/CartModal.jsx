@@ -69,8 +69,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             quantity: 1,
           })
         );
-        dispatch(setSelectedProduct(null)); // Сбрасываем selectedProduct
-        setFormData({ firstName: '', lastName: '', phoneNumber: '', address: '' }); // Сбрасываем форму
+        dispatch(setSelectedProduct(null));
         window.my_modal_1.close();
       } else {
         throw new Error(data.message || 'Ошибка при оформлении заказа');
@@ -107,7 +106,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           <input
             type="text"
             placeholder="Имя"
-            className="input input-bordered w-full"
+            className="input input-primary w-full"
             value={formData.firstName}
             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             required
@@ -115,17 +114,17 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           <input
             type="text"
             placeholder="Фамилия"
-            className="input input-bordered w-full"
+            className="input input-primary w-full"
             value={formData.lastName}
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             required
           />
           <div className="relative">
-            <span className="absolute z-20 inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
               +998 </span>
             <input
               type="tel"
-              className="input validator tabular-nums w-full"
+              className="input input-primary validator tabular-nums w-full"
               placeholder="Телефон"
               value={formData.phoneNumber}
               onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
@@ -143,17 +142,14 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           <input
             type="text"
             placeholder="Адрес доставки"
-            className="input input-bordered w-full"
+            className="input input-primary w-full"
             value={formData.address}
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             required
           />
           <button
             type="submit"
-            className="btn btn-success w-full relative overflow-hidden
-              bg-gradient-to-r from-green-500 to-emerald-600
-              hover:from-green-600 hover:to-emerald-700
-              text-white font-semibold py-3 px-6 rounded-xl
+            className="btn btn-success w-full relative font-semibold py-3 px-6 rounded-xl
               shadow-lg hover:shadow-xl
               transform transition-all duration-300 ease-in-out
               hover:scale-105 active:scale-95
