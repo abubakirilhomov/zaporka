@@ -149,7 +149,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           />
           <button
             type="submit"
-            className="btn btn-success w-full relative font-semibold py-3 px-6 rounded-xl
+            className="btn btn-primary w-full relative font-semibold py-3 px-6 rounded-xl
               shadow-lg hover:shadow-xl
               transform transition-all duration-300 ease-in-out
               hover:scale-105 active:scale-95
@@ -162,7 +162,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
               {isSubmitting ? (
                 <span className="loading loading-spinner"></span>
               ) : (
-                'Заказать'
+                'В корзину'
               )}
             </span>
             <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>

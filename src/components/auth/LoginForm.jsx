@@ -2,7 +2,7 @@
 'use client';
 
 import { useDispatch } from 'react-redux';
-import { login } from '@/lib/redux/slices/authSlice';
+import { login } from '../../redux/slices/authSlice';
 
 export default function LoginForm() {
   const dispatch = useDispatch();

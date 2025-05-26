@@ -7,7 +7,7 @@ import Loading from '@/components/ui/Loading/Loading';
 import { toast } from 'react-toastify';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -44,9 +44,8 @@ const CartPage = () => {
       setIsSubmitting(false);
       return;
     }
-
     const orderData = {
-      products: cartItems.map((item) => item.id), // Send array of ObjectId strings
+      products: cartItems.map((item) => item.id),
       ...userData,
       totalPrice,
     };
