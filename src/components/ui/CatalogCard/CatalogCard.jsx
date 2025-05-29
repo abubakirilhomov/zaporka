@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-const CatalogCard = ({ categories }) => {
+const CatalogCard = ({ categories, serverUrl }) => {
+
   return (
     <div className="md:gap-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-1">
       {categories.map((category) => {
         const [isImageLoaded, setIsImageLoaded] = useState(false);
-
         return (
           <motion.div
             key={category.name} // Use unique identifier instead of index
@@ -19,7 +19,7 @@ const CatalogCard = ({ categories }) => {
             className="w-full sm:max-w-[100%] md:max-w-[354px] lg:max-w-[300px] md:mb-2 sm:mb-0"
           >
             <Link
-              href={`/catalog/${category._id}`}
+              href={`/catalog/${category.slug}`}
               className="p-6 sm:p-8 flex-1 h-full border border-neutral-400 md:rounded flex flex-col justify-between items-center"
             >
               <div className="relative w-full h-32 mb-3">
@@ -29,8 +29,8 @@ const CatalogCard = ({ categories }) => {
                   </div>
                 )}
                 <img
-                  src={category.image || "/placeholder-image.png"}
-                  alt={`Image for ${category.name} category`}
+                  src={`${serverUrl}${category.image || "/placeholder-image.png"}`}
+                  alt={`${category.name}`}
                   className={`w-full h-32 object-cover transition-opacity duration-300 ${
                     isImageLoaded ? "opacity-100" : "opacity-0"
                   }`}
@@ -45,9 +45,7 @@ const CatalogCard = ({ categories }) => {
                 {category.name}
               </motion.span>
               <p className="text-neutral-500 md:text-sm text-xs text-center pt-3 line-clamp-2">
-                {category.amount
-                  ? `${category.amount} товаров`
-                  : "Неизвестное количество товаров"}
+                {category?.productsQuantity} товаров
               </p>
             </Link>
           </motion.div>

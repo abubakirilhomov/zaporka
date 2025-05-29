@@ -7,7 +7,7 @@ import React from 'react';
 const Catalog = () => {
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const { data: categories, loading, error } = useFetch(`${serverUrl}/api/v1/categories`);
-
+  console.log(categories);
   return (
     <main className="container mx-auto md:px-4 px-0 py-8">
       <h1 className="text-3xl font-bold">Каталог</h1>
@@ -23,7 +23,7 @@ const Catalog = () => {
       {!loading && !error && (
         <div className="mt-10">
           {categories && categories.length > 0 ? (
-            <CatalogCard categories={categories} />
+            <CatalogCard categories={categories} serverUrl={serverUrl}/>
           ) : (
             <p className="text-neutral-500">Категории не найдены</p>
           )}

@@ -62,7 +62,7 @@ export default function NavDesktop() {
             </label>
           </div>
 
-          <div className="relative group cursor-pointer p-1 rounded-xl border-2">
+          <div className="relative group cursor-pointer p-1 rounded-sm border border-primary">
               <p
               
                 className="text-sm text-base-content font-bold rounded-full p-1 flex gap-2 items-center"
@@ -77,8 +77,8 @@ export default function NavDesktop() {
             </div>
           </div>
 
-          <div className='flex items-center gap-10 p-1 pl-2 pr-2 rounded-xl border-2'>
-            <button className="cursor-pointer flex items-center gap-2 text-base-content" onClick={handleOpenModal}>
+          <div className='flex items-center gap-10 p-2 pl-2 pr-2 rounded-sm border border-primary'>
+            <button className="cursor-pointer text-sm font-bold flex items-center gap-2 text-base-content" onClick={handleOpenModal}>
               <FaUserCircle /> Войти
             </button>
 
