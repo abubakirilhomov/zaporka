@@ -1,4 +1,4 @@
-// components/ui/ProductsCard/ProductsCard.jsx
+// components/ui/ProductsCard/ProductCard.jsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -12,17 +12,14 @@ const ProductCard = ({
   product,
   index,
   motionProps,
-  imageErrors,
-  setImageErrors,
-  setSelectedProduct,
+  imageErrors = {},
+  setImageErrors = () => {},
 }) => {
   const dispatch = useDispatch();
   const productId =
     product._id || product.id || `${product.title}-${product.price}-${index}`;
   const imageSrc = product.mainImage || '/placeholder-image.png';
-  const altText = product.title
-    ? `Изображение ${product.title}`
-    : 'Изображение товара';
+  const altText = product.title ? `Изображение ${product.title}` : 'Изображение товара';
 
   return (
     <motion.div {...motionProps} className="flex">
@@ -30,7 +27,6 @@ const ProductCard = ({
         <Link
           href={`/product/${productId}`}
           className="relative p-4 rounded-2xl border border-neutral-300 flex flex-col items-center w-full hover:shadow-lg transition-shadow"
-          aria-label={`Посмотреть ${product.title || 'товар'}`}
         >
           {product.stock > 0 && (
             <span className="absolute top-2 left-2 badge badge-success rounded-2xl text-white font-bold">
@@ -58,9 +54,7 @@ const ProductCard = ({
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center rounded">
-                <span className="text-neutral-500 text-sm text-center">
-                  {altText}
-                </span>
+                <span className="text-neutral-500 text-sm text-center">{altText}</span>
               </div>
             )}
           </div>
@@ -69,9 +63,7 @@ const ProductCard = ({
             {product.title || 'Без названия'}
           </span>
           <p className="text-neutral-800 font-bold text-md text-center mt-1">
-            {product.price
-              ? `${product.price} ${product.currency}`
-              : 'Цена неизвестна'}
+            {product.price ? `${product.price} ${product.currency}` : 'Цена неизвестна'}
           </p>
           <div className="mt-2 text-xs hidden md:block text-neutral-600 text-center space-y-1">
             {product.material && <p>Материал: {product.material}</p>}
@@ -80,6 +72,7 @@ const ProductCard = ({
               <p>Рабочее давление: {product.workingPressure} бар</p>
             )}
           </div>
+
           <button
             className="mt-3 btn w-full relative btn-primary font-semibold py-3 px-6 rounded-xl
               shadow-lg hover:shadow-xl
@@ -89,19 +82,19 @@ const ProductCard = ({
               group"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(setSelectedProduct({
-                id: product._id || product.id,
-                title: product.title,
-                price: Number(product.price),
-                currency: product.currency || '₽',
-              }));
-              window.my_modal_1.showModal();
+              dispatch(
+                setSelectedProduct({
+                  id: product._id || product.id,
+                  title: product.title,
+                  price: Number(product.price),
+                  currency: product.currency || '₽',
+                })
+              );
+              window.my_modal_1?.showModal?.();
             }}
           >
             <span className="relative z-10">В корзину</span>
-            <BsCartPlus
-              className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
-            />
+            <BsCartPlus className="relative z-10 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
             <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
           </button>
         </Link>
