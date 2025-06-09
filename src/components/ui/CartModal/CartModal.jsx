@@ -1,4 +1,3 @@
-// components/ui/CartModal/CartModal.jsx
 'use client';
 
 import { useState } from 'react';
@@ -10,12 +9,9 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
   const dispatch = useDispatch();
   const reduxSelectedProduct = useSelector((state) => state.cart.selectedProduct);
   const userData = useSelector((state) => state.cart.userData);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const currentProduct = selectedProduct || reduxSelectedProduct;
-  const store = useSelector((state) => state.cart);
-  console.log('store', store);
 
+  const [quantity, setQuantity] = useState(1);
   const [formData, setFormData] = useState({
     firstName: userData.firstName || '',
     lastName: userData.lastName || '',
@@ -23,74 +19,61 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
     address: userData.address || '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!currentProduct) {
       toast.error('Товар не выбран');
       return;
     }
 
-    // Проверяем валидность формы
     if (!e.target.checkValidity()) {
       toast.error('Пожалуйста, заполните все поля корректно');
       return;
     }
 
-    setIsSubmitting(true);
-    const totalPrice = Number(currentProduct.price);
-    if (isNaN(totalPrice)) {
-      toast.error('Ошибка: некорректная цена товара');
-      setIsSubmitting(false);
+    if (quantity < 1) {
+      toast.error('Количество должно быть не менее 1');
       return;
     }
 
-    const orderData = {
-      products: [currentProduct._id || currentProduct.id], // Send array of ObjectId strings
-      ...formData,
-      totalPrice,
-    };
+    dispatch(setUserData(formData));
+    dispatch(
+      addToCart({
+        id: currentProduct._id || currentProduct.id,
+        title: currentProduct.title,
+        price: Number(currentProduct.price),
+        quantity: Number(quantity),
+      })
+    );
 
-    try {
-      dispatch(setUserData(formData)); // Сохраняем userData в Redux
-      const response = await fetch(`${serverUrl}/api/v1/orders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        toast.success('Заказ успешно отправлен!');
-        // Добавляем selectedProduct в items
-        dispatch(
-          addToCart({
-            id: currentProduct._id || currentProduct.id,
-            title: currentProduct.title,
-            price: totalPrice,
-            quantity: 1,
-          })
-        );
-        dispatch(setSelectedProduct(null));
-        window.my_modal_1.close();
-      } else {
-        throw new Error(data.message || 'Ошибка при оформлении заказа');
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(err.message || 'Ошибка при оформлении заказа');
-    } finally {
-      setIsSubmitting(false);
-    }
+    toast.success('Товар добавлен в корзину!');
+    dispatch(setSelectedProduct(null));
+    setQuantity(1);
+    window.my_modal_1.close();
   };
 
   const handleClose = () => {
-    dispatch(setSelectedProduct(null)); // Очищаем selectedProduct
+    dispatch(setSelectedProduct(null));
     setFormData({
       firstName: userData.firstName || '',
       lastName: userData.lastName || '',
       phoneNumber: userData.phoneNumber || '',
       address: userData.address || '',
-    }); // Восстанавливаем formData из userData
+    });
+    setQuantity(1);
     window.my_modal_1.close();
+  };
+
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || /^[0-9]*$/.test(value)) {
+      setQuantity(value);
+    }
+  };
+
+  const incrementQuantity = () => setQuantity((prev) => Number(prev) + 1);
+  const decrementQuantity = () => {
+    if (quantity > 1) setQuantity((prev) => Number(prev) - 1);
   };
 
   return (
@@ -120,11 +103,12 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             required
           />
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-              +998 </span>
+            <span className="absolute inset-y-0 z-10 left-0 flex items-center pl-2 ">
+              +998
+            </span>
             <input
               type="tel"
-              className="input input-primary validator tabular-nums w-full"
+              className="input input-primary tabular-nums w-full pl-12"
               placeholder="Телефон"
               value={formData.phoneNumber}
               onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
@@ -135,8 +119,8 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
               inputMode="numeric"
               required
             />
-            {formData.phoneNumber.length > 0 && formData.phoneNumber.length < 8  && (
-              <p className="validator-hint text-error text-sm mt-1">Должно быть 8 цифр</p>
+            {formData.phoneNumber.length > 0 && formData.phoneNumber.length < 8 && (
+              <p className="text-error text-sm mt-1">Должно быть 8 цифр</p>
             )}
           </div>
           <input
@@ -147,30 +131,48 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             required
           />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={decrementQuantity}
+              disabled={quantity <= 1}
+              className="btn btn-sm btn-outline"
+              aria-label="Уменьшить количество"
+            >
+              -
+            </button>
+            <input
+              type="number"
+              className="input input-primary w-20 text-center"
+              value={quantity}
+              onChange={handleQuantityChange}
+              min="1"
+              required
+            />
+            <button
+              type="button"
+              onClick={incrementQuantity}
+              className="btn btn-sm btn-outline"
+              aria-label="Увеличить количество"
+            >
+              +
+            </button>
+          </div>
+
+          {/* КНОПКА: Добавить в корзину */}
           <button
             type="submit"
-            className="btn btn-primary w-full relative font-semibold py-3 px-6 rounded-xl
-              shadow-lg hover:shadow-xl
-              transform transition-all duration-300 ease-in-out
-              hover:scale-105 active:scale-95
-              flex items-center justify-center gap-2
-              group"
-            disabled={isSubmitting}
-            aria-label={isSubmitting ? 'Отправка заказа...' : 'Заказать'}
+            className="btn btn-primary w-full font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out flex items-center justify-center gap-2 relative overflow-hidden"
+            aria-label="Добавить в корзину"
           >
-            <span className="relative z-10">
-              {isSubmitting ? (
-                <span className="loading loading-spinner"></span>
-              ) : (
-                'В корзину'
-              )}
-            </span>
-            <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+            {/* Эффект наведения, не перекрывающий клики */}
+            <span className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300 z-0"></span>
+            <span className="relative z-10">Добавить в корзину</span>
           </button>
         </form>
         <div className="modal-action">
           <form method="dialog">
-            <button className="btn" onClick={handleClose}>
+            <button className="btn" onClick={handleClose} aria-label="Отмена">
               Отмена
             </button>
           </form>

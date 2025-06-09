@@ -1,14 +1,16 @@
-import Catalog from '@/components/shop/Catalog/Catalog';
+'use client';
+
 import React, { useState } from 'react';
 import { FiGrid, FiChevronDown, FiChevronRight } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
-const CatalogSidebar = ({ categories }) => {
+const CatalogSidebar = ({ categories, loading }) => {
   const [open, setOpen] = useState(true);
   const safeCategories = Array.isArray(categories) ? categories : [];
 
   return (
-    <aside className="w-full md:w-64 bg-white border border-gray-200 p-4">
+    <aside className="w-full rounded-md md:w-64 bg-base-200 border border-base-200 p-4" aria-busy={loading}>
       {/* Заголовок */}
       <div
         className="flex items-center justify-between cursor-pointer mb-2"
@@ -31,19 +33,30 @@ const CatalogSidebar = ({ categories }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="flex flex-col divide-y divide-gray-200 border border-gray-200 rounded-md">
-              {safeCategories.length > 0 ? (
+            <div className="flex flex-col divide-y divide-base-200 border border-base-200 rounded-md">
+              {loading ? (
+                // Skeleton Loader with DaisyUI
+                <>
+                  {[...Array(3)].map((_, index) => (
+                    <div key={index} className="px-4 py-3 flex justify-between items-center">
+                      <div className="skeleton h-4 w-3/4"></div>
+                      <div className="skeleton h-4 w-4"></div>
+                    </div>
+                  ))}
+                </>
+              ) : safeCategories.length > 0 ? (
                 safeCategories.map((cat) => (
-                  <div
+                  <Link
                     key={cat._id}
-                    className="px-4 py-3 text-sm hover:bg-gray-50 cursor-pointer flex justify-between items-center"
+                    href={`/catalog/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="px-4 py-3 text-sm bg-base-100 hover:bg-base-200 cursor-pointer flex justify-between items-center"
                   >
                     <span>{cat.name}</span>
                     <FiChevronRight size={14} />
-                  </div>
+                  </Link>
                 ))
               ) : (
-                <p className="text-neutral-500 px-4 py-3">Категории не найдены</p>
+                <p className="text-base-content px-4 py-3">Категории не найдены</p>
               )}
             </div>
           </motion.div>

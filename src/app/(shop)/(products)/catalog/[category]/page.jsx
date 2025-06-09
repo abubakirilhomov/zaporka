@@ -1,4 +1,3 @@
-// app/[category]/page.jsx
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -14,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
 import { toast } from 'react-toastify';
+import CatalogSidebar from '@/components/ui/CatalogSidebar/CatalogSidebar';
+import Pagination from '@/components/ui/Pagination/Pagination';
 
 const Page = () => {
   const { category } = useParams();
@@ -22,13 +23,22 @@ const Page = () => {
   const dispatch = useDispatch();
   const { selectedProduct, userData } = useSelector((state) => state.cart);
 
-  const { data: products, loading, error, refetch } = useFetch(
+  // Получение продуктов по категории
+  const { data: products, loading: productsLoading, error: productsError, refetch } = useFetch(
     `${serverUrl}/api/v1/products/by-category/${category}`,
+    {}
+  );
+
+  // Получение списка категорий
+  const { data: categories, loading: categoriesLoading, error: categoriesError } = useFetch(
+    `${serverUrl}/api/v1/categories`,
     {}
   );
 
   const [imageErrors, setImageErrors] = useState({});
   const [isRefetching, setIsRefetching] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8; // Количество продуктов на странице
 
   const initializeImageErrors = useCallback(() => {
     if (!products) return;
@@ -72,7 +82,6 @@ const Page = () => {
       quantity: 1,
     };
 
-    // Check if userData is complete
     const isUserDataComplete =
       userData.firstName &&
       userData.lastName &&
@@ -80,13 +89,11 @@ const Page = () => {
       userData.address;
 
     if (isUserDataComplete) {
-      // If userData exists, add to cart directly and send order to server
       dispatch(addToCart(productData));
       toast.success(`${product.title} добавлен в корзину!`);
 
-      // Send order to server
       const orderData = {
-        products: [productData.id], // Send array of ObjectId strings
+        products: [productData.id],
         ...userData,
         totalPrice: price,
       };
@@ -105,11 +112,9 @@ const Page = () => {
         .catch((err) => {
           console.error(err);
           toast.error(err.message || 'Ошибка при оформлении заказа');
-          // Optionally remove the item from cart if the server request fails
           dispatch(removeFromCart(productData.id));
         });
     } else {
-      // If userData is incomplete, open the modal
       dispatch(setSelectedProduct(productData));
       window.my_modal_1.showModal();
     }
@@ -139,6 +144,13 @@ const Page = () => {
     );
   }
 
+  // Логика пагинации
+  const totalProducts = products ? products.length : 0;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = products ? products.slice(startIndex, endIndex) : [];
+
   const decodedCategory = decodeURIComponent(category);
 
   return (
@@ -150,111 +162,133 @@ const Page = () => {
           content={`Просмотрите товары в категории ${decodedCategory} - высококачественные изделия с доставкой.`}
         />
       </Head>
-
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="container mx-auto md:px-4 sm:px-6 lg:px-8 py-8"
-      >
-        <CartModal selectedProduct={selectedProduct} setSelectedProduct={(product) => dispatch(setSelectedProduct(product))} />
-
-        <h1 className="text-3xl font-bold">Категория: {decodedCategory}</h1>
-        <nav aria-label="Breadcrumb" className="pt-5">
-          <ol className="flex space-x-2 text-neutral-400">
-            <li>
-              <Link href="/" className="hover:text-primary">
-                Главная
-              </Link>
-            </li>
-            <li> / </li>
-            <li>
-              <Link href="/catalog" className="hover:text-primary">
-                Каталог
-              </Link>
-            </li>
-            <li> / {decodedCategory}</li>
-          </ol>
-        </nav>
-
-        {loading && (
-          <div className="flex justify-center mt-10">
-            <Loading aria-label="Загрузка товаров" />
-          </div>
-        )}
-
-        {error && (
-          <div className="mt-10 text-center">
+      <div className="container mx-auto flex flex-col md:flex-row gap-8 px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-full md:w-64 mb-8 md:mb-0">
+          {categoriesError && (
             <p className="text-error">
-              Ошибка загрузки товаров:{' '}
-              {error instanceof Error ? error.message : 'Неизвестная ошибка'}
+              Ошибка загрузки категорий: {categoriesError.message || 'Неизвестная ошибка'}
             </p>
-            <button
-              onClick={handleRefetch}
-              disabled={isRefetching}
-              className={`mt-4 px-4 py-2 text-white rounded ${
-                isRefetching
-                  ? 'cursor-not-allowed'
-                  : 'bg-primary hover:bg-primary-dark'
-              }`}
-            >
-              Попробовать снова
-            </button>
-          </div>
-        )}
+          )}
+          {!categoriesError && (
+            <CatalogSidebar categories={categories || []} loading={categoriesLoading} />
+          )}
+        </div>
+        <motion.main
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="flex-1"
+        >
+          <CartModal
+            selectedProduct={selectedProduct}
+            setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
+          />
 
-        {!loading && !error && (
-          <div className="mt-10">
-            {products && products.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 gap-2">
-                {products.map((product, index) => (
-                  <ProductCard
-                    key={product._id || product.id || `${product.title}-${product.price}-${index}`}
-                    product={product}
-                    index={index}
-                    motionProps={motionProps}
-                    imageErrors={imageErrors}
-                    setImageErrors={setImageErrors}
-                    setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
-                    renderButton={() => (
-                      <button
-                        className="mt-3 btn w-full relative overflow-hidden btn-primary font-semibold py-3 px-6 rounded-xl
-                          shadow-lg hover:shadow-xl
-                          transform transition-all duration-300 ease-in-out
-                          hover:scale-105 active:scale-95
-                          flex items-center justify-center gap-2
-                          group"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleAddToCart(product);
-                        }}
-                        aria-label={`Добавить ${product.title} в корзину`}
-                      >
-                        <span className="relative z-10">Добавить в корзину</span>
-                        <BsCartPlus
-                          size={20}
-                          className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
-                        />
-                        <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-                      </button>
-                    )}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center mt-10">
-                <p className="text-neutral-500">Товары в категории не найдены</p>
-                <Link
-                  href="/catalog"
-                  className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
-                >
-                  Вернуться в каталог
+          <h1 className="text-3xl font-bold">Категория: {decodedCategory}</h1>
+          <nav aria-label="Breadcrumb" className="pt-5">
+            <ol className="flex space-x-2 text-neutral-400">
+              <li>
+                <Link href="/" className="hover:text-primary">
+                  Главная
                 </Link>
-              </div>
-            )}
-          </div>
-        )}
-      </motion.main>
+              </li>
+              <li> / </li>
+              <li>
+                <Link href="/catalog" className="hover:text-primary">
+                  Каталог
+                </Link>
+              </li>
+              <li> / {decodedCategory}</li>
+            </ol>
+          </nav>
+
+          {productsLoading && (
+            <div className="flex justify-center mt-10">
+              <Loading aria-label="Загрузка товаров" />
+            </div>
+          )}
+
+          {productsError && (
+            <div className="mt-10 text-center">
+              <p className="text-error">
+                Ошибка загрузки товаров:{' '}
+                {productsError instanceof Error ? productsError.message : 'Неизвестная ошибка'}
+              </p>
+              <button
+                onClick={handleRefetch}
+                disabled={isRefetching}
+                className={`mt-4 px-4 py-2 text-white rounded ${
+                  isRefetching
+                    ? 'cursor-not-allowed'
+                    : 'bg-primary hover:bg-primary-dark'
+                }`}
+              >
+                Попробовать снова
+              </button>
+            </div>
+          )}
+
+          {!productsLoading && !productsError && (
+            <div className="mt-10">
+              {products && products.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 gap-2">
+                    {currentProducts.map((product, index) => (
+                      <ProductCard
+                        key={product._id || product.id || `${product.title}-${product.price}-${index}`}
+                        product={product}
+                        index={index}
+                        motionProps={motionProps}
+                        imageErrors={imageErrors}
+                        setImageErrors={setImageErrors}
+                        setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
+                        renderButton={() => (
+                          <button
+                            className="mt-3 btn w-full relative overflow-hidden btn-primary font-semibold py-3 px-6 rounded-xl
+                              shadow-lg hover:shadow-xl
+                              transform transition-all duration-300 ease-in-out
+                              hover:scale-105 active:scale-95
+                              flex items-center justify-center gap-2
+                              group"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAddToCart(product);
+                            }}
+                            aria-label={`Добавить ${product.title} в корзину`}
+                          >
+                            <span className="relative z-10">Добавить в корзину</span>
+                            <BsCartPlus
+                              size={20}
+                              className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
+                            />
+                            <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+                          </button>
+                        )}
+                      />
+                    ))}
+                  </div>
+                  {/* Используем компонент Pagination */}
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
+                </>
+              ) : (
+                <div className="text-center mt-10">
+                  <p className="text-neutral-500">Товары в категории не найдены</p>
+                  <Link
+                    href="/catalog"
+                    className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+                  >
+                    Вернуться в каталог
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
+        </motion.main>
+      </div>
     </>
   );
 };

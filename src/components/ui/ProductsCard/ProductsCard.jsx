@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsCartPlus } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
-import { setSelectedProduct } from '@/redux/slices/cartSlice';
 
 const ProductCard = ({
   product,
@@ -16,14 +15,15 @@ const ProductCard = ({
   setImageErrors,
   setSelectedProduct,
 }) => {
+  console.log(product)
   const dispatch = useDispatch();
   const productId =
     product._id || product.id || `${product.title}-${product.price}-${index}`;
-  const imageSrc = product.mainImage || '/placeholder-image.png';
+  const imageSrc = `${process.env.NEXT_PUBLIC_SERVER_URL}${product.images}` || '/placeholder-image.png';
   const altText = product.title
     ? `Изображение ${product.title}`
     : 'Изображение товара';
-
+  console.log(product.price)
   return (
     <motion.div {...motionProps} className="flex">
       <div className="relative flex flex-col items-center w-full">
@@ -33,12 +33,12 @@ const ProductCard = ({
           aria-label={`Посмотреть ${product.title || 'товар'}`}
         >
           {product.stock > 0 && (
-            <span className="absolute top-2 left-2 badge badge-success rounded-2xl text-white font-bold">
+            <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-white font-bold">
               В наличии
             </span>
           )}
           {product.views > 50 && (
-            <span className="absolute top-2 right-2 badge badge-info rounded-2xl text-white font-bold">
+            <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-white font-bold">
               Популярно
             </span>
           )}
@@ -70,7 +70,7 @@ const ProductCard = ({
           </span>
           <p className="text-neutral-800 font-bold text-md text-center mt-1">
             {product.price
-              ? `${product.price} ${product.currency}`
+              ? `${product.price} ${product.currency || 'UZS'}`
               : 'Цена неизвестна'}
           </p>
           <div className="mt-2 text-xs hidden md:block text-neutral-600 text-center space-y-1">
@@ -93,7 +93,7 @@ const ProductCard = ({
                 id: product._id || product.id,
                 title: product.title,
                 price: Number(product.price),
-                currency: product.currency || '₽',
+                currency: product.currency || 'UZS',
               }));
               window.my_modal_1.showModal();
             }}

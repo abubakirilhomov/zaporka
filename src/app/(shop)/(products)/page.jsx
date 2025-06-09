@@ -1,12 +1,6 @@
 // app/(shop)/(products)/page.jsx
 import ProductCard from '@/components/shop/ProductCard';
 
-// Mock product data (replace with API fetch)
-const products = [
-  { id: '1', name: 'Product 1', price: 29.99 },
-  { id: '2', name: 'Product 2', price: 49.99 },
-];
-
 export default function Products() {
   return (
     <div>

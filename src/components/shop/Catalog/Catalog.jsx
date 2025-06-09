@@ -3,7 +3,6 @@ import React from 'react';
 import CatalogCard from '@/components/ui/CatalogCard/CatalogCard';
 import Loading from '@/components/ui/Loading/Loading';
 import useFetch from '@/hooks/useFetch/useFetch';
-import SidebarCatalog from '@/components/ui/CatalogSidebar/CatalogSidebar'
 
 const Catalog = () => {
   const serverUrl = 'https://zaporka-backend.onrender.com';
@@ -11,10 +10,6 @@ const Catalog = () => {
 
   return (
     <div className="flex flex-col md:flex-row container mx-auto md:px-4 px-0 py-8">
-      {/* Левый сайдбар */}
-      <div className="w-full md:w-64 mb-8 md:mb-0">
-        <SidebarCatalog categories={categories} />
-      </div>
 
       {/* Основной контент */}
       <main className="flex-1 md:pl-6">
