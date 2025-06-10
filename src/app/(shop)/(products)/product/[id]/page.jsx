@@ -290,7 +290,7 @@ const ProductPage = () => {
             <h1 className="text-3xl font-bold">{product.title || 'Без названия'}</h1>
             <p className="text-2xl font-semibold text-primary mt-2">
               {product.price
-                ? `${product.price} ${product.currency || '₽'}`
+                ? `${product.price} ${product.currency || 'UZS'}`
                 : 'Цена неизвестна'}
             </p>
             <div className="mt-4 text-neutral-600 space-y-2">
