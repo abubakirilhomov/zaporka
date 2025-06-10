@@ -18,6 +18,7 @@ import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import ProductCard from '@/components/ui/ProductsCard/ProductsCard';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -36,13 +37,14 @@ const ProductPage = () => {
   const motionProps = shouldReduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.4, ease: 'easeOut' },
-      };
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.4, ease: 'easeOut' },
+    };
 
   const handleAddToCart = () => {
     if (!product) return;
+    <ProductCard />
 
     const price = Number(product.price);
     if (isNaN(price)) {
@@ -153,6 +155,9 @@ const ProductPage = () => {
     ...(product.swiperImages || []).slice(0, 2), // Ensure up to 3 images total (1 main + 2 from swiperImages)
   ].filter(Boolean).map((img) => `${serverUrl}${img}`);
 
+  console.log("DEBUG IMAGE", images);
+
+
   return (
     <>
       <Head>
@@ -199,12 +204,12 @@ const ProductPage = () => {
           {/* Image Swiper */}
           <div className="relative">
             {product.stock > 0 && (
-              <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-white font-bold">
+              <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-base-100 font-bold">
                 В наличии
               </span>
             )}
             {product.views > 50 && (
-              <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-white font-bold">
+              <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-base-100 font-bold">
                 Популярно
               </span>
             )}
@@ -310,16 +315,17 @@ const ProductPage = () => {
                 hover:scale-105 active:scale-95
                 flex items-center justify-center gap-2
                 group"
-              onClick={handleAddToCart}
-              aria-label={`Добавить ${product.title} в корзину`}
+              onClick={() => document.getElementById('my_modal_1').showModal()}
+              aria-label={`Добавить ${product.category.name} в корзину`}
             >
               <span className="relative z-10">Добавить в корзину</span>
               <BsCartPlus
                 size={20}
                 className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
               />
-              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+              <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
             </button>
+
           </div>
         </div>
       </motion.main>

@@ -261,7 +261,7 @@ const Page = () => {
                               size={20}
                               className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
                             />
-                            <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+                            <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
                           </button>
                         )}
                       />
@@ -279,7 +279,7 @@ const Page = () => {
                   <p className="text-neutral-500">Товары в категории не найдены</p>
                   <Link
                     href="/catalog"
-                    className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+                    className="mt-4 inline-block px-4 py-2 bg-primary text-base-100 rounded hover:bg-primary-dark"
                   >
                     Вернуться в каталог
                   </Link>

@@ -33,12 +33,12 @@ const ProductCard = ({
           aria-label={`Посмотреть ${product.title || 'товар'}`}
         >
           {product.stock > 0 && (
-            <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-white font-bold">
+            <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-base-100 font-bold">
               В наличии
             </span>
           )}
           {product.views > 50 && (
-            <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-white font-bold">
+            <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-base-100 font-bold">
               Популярно
             </span>
           )}
@@ -102,7 +102,7 @@ const ProductCard = ({
             <BsCartPlus
               className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
             />
-            <span className="absolute inset-0 bg-base-100` opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+            <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
           </button>
         </Link>
       </div>
