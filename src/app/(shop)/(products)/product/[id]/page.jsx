@@ -318,7 +318,7 @@ const ProductPage = () => {
                 size={20}
                 className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
               />
-              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+              <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
             </button>
           </div>
         </div>

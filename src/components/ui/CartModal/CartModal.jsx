@@ -166,7 +166,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             aria-label="Добавить в корзину"
           >
             {/* Эффект наведения, не перекрывающий клики */}
-            <span className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300 z-0"></span>
+            <span className="absolute inset-0 bg-base-100 opacity-0 hover:opacity-10 transition-opacity duration-300 z-0"></span>
             <span className="relative z-10">Добавить в корзину</span>
           </button>
         </form>
