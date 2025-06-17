@@ -13,7 +13,7 @@ export default function ShopLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow relative container mx-auto px-4 py-8">
+      <main className="flex-grow relative container mx-auto px- py-8">
         {children}
         <Link
           href="/cart"
