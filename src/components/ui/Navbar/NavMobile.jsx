@@ -7,8 +7,6 @@
   import { CgProfile } from "react-icons/cg";
   import { MdCategory, MdContactPhone } from "react-icons/md";
 
-
-
   export default function NavMobile() {
 
     const phoneNumber = '999001507';
@@ -38,10 +36,9 @@
 
     const pages = [
       { name: "Каталог", href: "/catalog", icon: <MdCategory /> },
-      { name: "Акции", href: "/discounts", icon: <FaGift /> },
-      { name: "Услуги", href: "/services", icon: <FaTools /> },
-      { name: "Проекты", href: "/projects", icon: <FaBuilding /> },
-      { name: "Компания", href: "/company", icon: <CgProfile /> },
+      { name: "Акции", href: "/", icon: <FaGift /> },
+      { name: "Услуги", href: "/", icon: <FaTools /> },
+      { name: "Компания", href: "/", icon: <CgProfile /> },
       { name: "Контакты", href: "/contacts", icon: <MdContactPhone /> },
     ];
 
