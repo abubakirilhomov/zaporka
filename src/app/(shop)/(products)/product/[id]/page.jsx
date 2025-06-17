@@ -94,7 +94,6 @@ const ProductPage = () => {
         });
     } else {
       dispatch(setSelectedProduct(productData));
-      window.my_modal_1.showModal();
     }
   };
 
@@ -315,7 +314,7 @@ const ProductPage = () => {
                 hover:scale-105 active:scale-95
                 flex items-center justify-center gap-2
                 group"
-              onClick={() => document.getElementById('my_modal_1').showModal()}
+              onClick={() => handleAddToCart()}
               aria-label={`Добавить ${product.category.name} в корзину`}
             >
               <span className="relative z-10">Добавить в корзину</span>
