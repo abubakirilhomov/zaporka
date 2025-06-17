@@ -8,7 +8,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
+import { setSelectedProduct, addToCart, removeFromCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import CartModal from '@/components/ui/CartModal/CartModal';
@@ -33,7 +33,6 @@ const ProductPage = () => {
     `${serverUrl}/api/v1/products/${id}`,
     {}
   );
-  console.log('Fetched Product:', product)
   const motionProps = shouldReduceMotion
     ? {}
     : {
@@ -42,7 +41,8 @@ const ProductPage = () => {
       transition: { duration: 0.4, ease: 'easeOut' },
     };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.preventDefault();
     if (!product) return;
     <ProductCard />
 
@@ -59,12 +59,14 @@ const ProductPage = () => {
       currency: product.currency || '₽',
       quantity: 1,
     };
-
+    console.log("productData", productData)
     const isUserDataComplete =
       userData.firstName &&
       userData.lastName &&
       userData.phoneNumber &&
       userData.address;
+
+      console.log("isUserDataComplete", isUserDataComplete)
 
     if (isUserDataComplete) {
       dispatch(addToCart(productData));
@@ -76,22 +78,7 @@ const ProductPage = () => {
         totalPrice: price,
       };
 
-      fetch(`${serverUrl}/api/v1/orders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.success) {
-            throw new Error(data.message || 'Ошибка при оформлении заказа');
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.error(err.message || 'Ошибка при оформлении заказа');
-          dispatch(removeFromCart(productData.id));
-        });
+     console.log("order:", orderData)
     } else {
       dispatch(setSelectedProduct(productData));
     }
@@ -141,7 +128,7 @@ const ProductPage = () => {
         </p>
         <Link
           href="/catalog"
-          className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+          className="mt-4 inline-block px-4 py-2 bg-primary text-base-300 rounded hover:bg-primary-dark"
         >
           Вернуться в каталог
         </Link>
@@ -154,7 +141,6 @@ const ProductPage = () => {
     ...(product.swiperImages || []).slice(0, 2), // Ensure up to 3 images total (1 main + 2 from swiperImages)
   ].filter(Boolean).map((img) => `${serverUrl}${img}`);
 
-  console.log("DEBUG IMAGE", images);
 
 
   return (
@@ -314,7 +300,7 @@ const ProductPage = () => {
                 hover:scale-105 active:scale-95
                 flex items-center justify-center gap-2
                 group"
-              onClick={() => handleAddToCart()}
+              onClick={(e) => handleAddToCart(e)}
               aria-label={`Добавить ${product.category.name} в корзину`}
             >
               <span className="relative z-10">Добавить в корзину</span>
