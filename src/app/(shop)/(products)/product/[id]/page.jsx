@@ -8,7 +8,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
+import { setSelectedProduct, addToCart, removeFromCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import CartModal from '@/components/ui/CartModal/CartModal';
