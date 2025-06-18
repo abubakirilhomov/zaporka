@@ -45,7 +45,7 @@ const Page = () => {
     setImageErrors((prev) => {
       const newErrors = { ...prev };
       products.forEach((product, index) => {
-        const productId = product._id || product.id || `${product.title}-${product.price}-${index}`;
+        const productId = product._id || product.id || `${product.title}-${product?.price}-${index}`;
         if (!(productId in newErrors)) {
           newErrors[productId] = false;
         }
@@ -68,7 +68,7 @@ const Page = () => {
   }, [refetch, isRefetching]);
 
   const handleAddToCart = (product) => {
-    const price = Number(product.price);
+    const price = Number(product?.price);
     if (isNaN(price)) {
       toast.error('Ошибка: некорректная цена товара');
       return;
@@ -194,7 +194,7 @@ const Page = () => {
               <button
                 onClick={handleRefetch}
                 disabled={isRefetching}
-                className={`mt-4 px-4 py-2 text-white rounded ${
+                className={`mt-4 px-4 py-2 text-base-300 rounded ${
                   isRefetching
                     ? 'cursor-not-allowed'
                     : 'bg-primary hover:bg-primary-dark'
@@ -212,7 +212,7 @@ const Page = () => {
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 gap-2">
                     {currentProducts.map((product, index) => (
                       <ProductCard
-                        key={product._id || product.id || `${product.title}-${product.price}-${index}`}
+                        key={product._id || product.id || `${product.title}-${product?.price}-${index}`}
                         product={product}
                         index={index}
                         motionProps={motionProps}
@@ -256,7 +256,7 @@ const Page = () => {
                   <p className="text-neutral-500">Товары в категории не найдены</p>
                   <Link
                     href="/catalog"
-                    className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+                    className="mt-4 inline-block px-4 py-2 bg-primary text-base-100 rounded hover:bg-primary-dark"
                   >
                     Вернуться в каталог
                   </Link>

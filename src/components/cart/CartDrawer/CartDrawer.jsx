@@ -113,9 +113,9 @@ const CartDrawer = () => {
                     onClick={handleBuy}
                     disabled={isSubmitting}
                     className="mt-4 btn w-full relative overflow-hidden
-                      bg-gradient-to-r from-green-500 to-emerald-600
-                      hover:from-green-600 hover:to-emerald-700
-                      text-white font-semibold py-2 px-4 rounded-lg
+                      bg-gradient-to-r from-success to-success
+                      hover:from-success hover:to-success
+                      text-base-300 font-semibold py-2 px-4 rounded-lg
                       shadow-lg hover:shadow-xl
                       transform transition-all duration-300 ease-in-out
                       hover:scale-105 active:scale-95

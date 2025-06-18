@@ -18,6 +18,7 @@ import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import ProductCard from '@/components/ui/ProductsCard/ProductsCard';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -32,17 +33,18 @@ const ProductPage = () => {
     `${serverUrl}/api/v1/products/${id}`,
     {}
   );
-  console.log('Fetched Product:', product)
   const motionProps = shouldReduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.4, ease: 'easeOut' },
-      };
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.4, ease: 'easeOut' },
+    };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.preventDefault();
     if (!product) return;
+    <ProductCard />
 
     const price = Number(product.price);
     if (isNaN(price)) {
@@ -57,12 +59,14 @@ const ProductPage = () => {
       currency: product.currency || '₽',
       quantity: 1,
     };
-
+    console.log("productData", productData)
     const isUserDataComplete =
       userData.firstName &&
       userData.lastName &&
       userData.phoneNumber &&
       userData.address;
+
+      console.log("isUserDataComplete", isUserDataComplete)
 
     if (isUserDataComplete) {
       dispatch(addToCart(productData));
@@ -74,25 +78,9 @@ const ProductPage = () => {
         totalPrice: price,
       };
 
-      fetch(`${serverUrl}/api/v1/orders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.success) {
-            throw new Error(data.message || 'Ошибка при оформлении заказа');
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.error(err.message || 'Ошибка при оформлении заказа');
-          dispatch(removeFromCart(productData.id));
-        });
+     console.log("order:", orderData)
     } else {
       dispatch(setSelectedProduct(productData));
-      window.my_modal_1.showModal();
     }
   };
 
@@ -140,7 +128,7 @@ const ProductPage = () => {
         </p>
         <Link
           href="/catalog"
-          className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+          className="mt-4 inline-block px-4 py-2 bg-primary text-base-300 rounded hover:bg-primary-dark"
         >
           Вернуться в каталог
         </Link>
@@ -152,6 +140,8 @@ const ProductPage = () => {
     product.mainImage,
     ...(product.swiperImages || []).slice(0, 2), // Ensure up to 3 images total (1 main + 2 from swiperImages)
   ].filter(Boolean).map((img) => `${serverUrl}${img}`);
+
+
 
   return (
     <>
@@ -199,12 +189,12 @@ const ProductPage = () => {
           {/* Image Swiper */}
           <div className="relative">
             {product.stock > 0 && (
-              <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-white font-bold">
+              <span className="absolute z-10 top-2 left-2 badge badge-success rounded-2xl text-base-100 font-bold">
                 В наличии
               </span>
             )}
             {product.views > 50 && (
-              <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-white font-bold">
+              <span className="absolute z-10 top-2 right-2 badge badge-info rounded-2xl text-base-100 font-bold">
                 Популярно
               </span>
             )}
@@ -310,8 +300,8 @@ const ProductPage = () => {
                 hover:scale-105 active:scale-95
                 flex items-center justify-center gap-2
                 group"
-              onClick={handleAddToCart}
-              aria-label={`Добавить ${product.title} в корзину`}
+              onClick={(e) => handleAddToCart(e)}
+              aria-label={`Добавить ${product.category.name} в корзину`}
             >
               <span className="relative z-10">Добавить в корзину</span>
               <BsCartPlus
@@ -320,6 +310,7 @@ const ProductPage = () => {
               />
               <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
             </button>
+
           </div>
         </div>
       </motion.main>
