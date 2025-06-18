@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 
 const BannerPage = () => {
   const [slides, setSlides] = useState([]);
-  const baseURL = "https://zaporka-backend.onrender.com";
+  const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   useEffect(() => {
     const fetchSlides = async () => {
@@ -55,14 +55,14 @@ const BannerPage = () => {
               }}
             >
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-black/20 rounded-2xl flex flex-col items-center justify-center text-white p-6 text-center">
+              <div className="absolute inset-0 bg-gradient-to-tr from-base-300 to-base/20 rounded-2xl flex flex-col items-center justify-center text-white p-6 text-center">
                 <h2 className="text-3xl sm:text-5xl font-extrabold drop-shadow mb-6">
                   {slide.title}
                 </h2>
                 {slide.link && (
                   <Link
                     href={slide.link}
-                    className="px-6 py-3 bg-base-100 text-black rounded-lg hover:bg-opacity-80 transition-all duration-300 shadow-lg"
+                    className="px-6 py-3 bg-base-100 text-base-content rounded-lg hover:bg-opacity-80 transition-all duration-300 shadow-lg"
                   >
                     Подробнее
                   </Link>
