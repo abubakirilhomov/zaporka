@@ -45,7 +45,9 @@ export default function NavDesktop() {
       <nav className="text-base-300 p-5 hidden md:block sticky z-50 pr-20 items-center shadow-xs">
         <div className='flex justify-between items-center gap-10'>
           <div className="container mx-auto flex gap-8 justify-start items-center relative left-10">
-            <Image src={logo} alt="Logo" width={150} height={150} className='cursor-pointer' />
+            <Link href={`/`}>            
+              <Image src={logo} alt="Logo" width={150} height={150} className='cursor-pointer' />
+            </Link>
             <label className="input border flex items-center w-[60%] h-10 ml-16 border-primary bg-base-100">
               <input
                 type="search"
@@ -124,12 +126,10 @@ export default function NavDesktop() {
                   </div>
 
                   <div className="flex gap-2 justify-between mt-4">
-                    <button className="bg-info cursor-pointer text-base-300 font-semibold py-2 px-4 rounded-xl w-full">
+                    <button className="bg-info cursor-pointer text-base-300 font-semibold py-2 px-4 rounded-xl w-full hover:bg-success-content duration-200">
                       ВОЙТИ
                     </button>
-                    <button className="border border-info text-info cursor-pointer font-semibold py-2 px-4 rounded-xl w-full">
-                      РЕГИСТРАЦИЯ
-                    </button>
+                   
                   </div>
                 </div>
               </div>
