@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedProduct, addToCart, removeFromCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import CartModal from '@/components/ui/CartModal/CartModal';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -25,10 +25,11 @@ const ProductPage = () => {
   console.log('Product ID:', id);
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const shouldReduceMotion = useReducedMotion();
-  const dispatch = useDispatch();
   const { selectedProduct, userData } = useSelector((state) => state.cart);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const dispatch = useDispatch();
   const [imageErrors, setImageErrors] = useState({});
+  const [quantity, setQuantity] = useState(1);
   const { data: product, loading, error } = useFetch(
     `${serverUrl}/api/v1/products/${id}`,
     {}
@@ -57,7 +58,7 @@ const ProductPage = () => {
       title: product.title,
       price,
       currency: product.currency || '₽',
-      quantity: 1,
+      quantity,
     };
     console.log("productData", productData)
     const isUserDataComplete =
@@ -66,7 +67,7 @@ const ProductPage = () => {
       userData.phoneNumber &&
       userData.address;
 
-      console.log("isUserDataComplete", isUserDataComplete)
+    console.log("isUserDataComplete", isUserDataComplete)
 
     if (isUserDataComplete) {
       dispatch(addToCart(productData));
@@ -78,7 +79,7 @@ const ProductPage = () => {
         totalPrice: price,
       };
 
-     console.log("order:", orderData)
+      console.log("order:", orderData)
     } else {
       dispatch(setSelectedProduct(productData));
     }
@@ -161,6 +162,8 @@ const ProductPage = () => {
           selectedProduct={selectedProduct}
           setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
         />
+
+        <ToastContainer/>
 
         <nav aria-label="Breadcrumb" className="pt-5">
           <ol className="flex space-x-2 text-neutral-400">
@@ -293,23 +296,40 @@ const ProductPage = () => {
                 <p className="mt-4">{product.description}</p>
               )}
             </div>
-            <button
-              className="mt-6 btn w-full md:w-auto relative btn-primary font-semibold py-3 px-6 rounded-xl
-                shadow-lg hover:shadow-xl
-                transform transition-all duration-300 ease-in-out
-                hover:scale-105 active:scale-95
-                flex items-center justify-center gap-2
-                group"
-              onClick={(e) => handleAddToCart(e)}
-              aria-label={`Добавить ${product.category.name} в корзину`}
-            >
-              <span className="relative z-10">Добавить в корзину</span>
-              <BsCartPlus
-                size={20}
-                className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
-              />
-              <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-            </button>
+            <div className='flex items-center gap-2'>
+              <button
+                className="mt-6 btn w-full md:w-auto relative btn-primary font-semibold py-3 px-6 rounded-xl
+                  shadow-lg hover:shadow-xl
+                  transform transition-all duration-300 ease-in-out
+                  hover:scale-105 active:scale-95
+                  flex items-center justify-center gap-2
+                  group"
+                onClick={(e) => handleAddToCart(e)}
+                aria-label={`Добавить ${product.category.name} в корзину`}
+              >
+                <span className="relative z-10">Добавить в корзину</span>
+                <BsCartPlus
+                  size={20}
+                  className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
+                />
+                <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+              </button>
+              <div className="flex items-center gap-4 mt-4">
+                <button
+                  onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                  className="btn btn-sm btn-outline border-2 border-primary"
+                >
+                  <span className='text-warning font-bold '>-</span>
+                </button>
+                <span className="text-lg font-semibold border-2 border-primary pl-5 pr-5 rounded-xs  w-[105%]">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(prev => prev + 1)}
+                  className="btn btn-sm btn-outline border-2 border-primary"
+                >
+                  <span className='text-success font-bold'>+</span>
+                </button>
+              </div>
+            </div>
 
           </div>
         </div>
