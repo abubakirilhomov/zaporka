@@ -73,7 +73,7 @@ const Page = () => {
       toast.error('Ошибка: некорректная цена товара');
       return;
     }
-
+    toast.success(`${product.title} добавлен в корзину!`);
     const productData = {
       id: product._id || product.id,
       title: product.title,
@@ -91,33 +91,10 @@ const Page = () => {
     if (isUserDataComplete) {
       dispatch(addToCart(productData));
       toast.success(`${product.title} добавлен в корзину!`);
-
-      const orderData = {
-        products: [productData.id],
-        ...userData,
-        totalPrice: price,
-      };
-
-    //   fetch(`${serverUrl}/api/v1/orders`, {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(orderData),
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       if (!data.success) {
-    //         throw new Error(data.message || 'Ошибка при оформлении заказа');
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       toast.error(err.message || 'Ошибка при оформлении заказа');
-    //       dispatch(removeFromCart(productData.id));
-    //     });
-    // } else {
       dispatch(setSelectedProduct(productData));
       window.my_modal_1.showModal();
     }
+    toast.success(`${product.title} добавлен в корзину!`);
   };
 
   const motionProps = shouldReduceMotion
