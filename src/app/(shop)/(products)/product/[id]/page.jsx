@@ -132,7 +132,7 @@ const ProductPage = () => {
   const images = [
     product.mainImage,
     ...(product.swiperImages || []).slice(0, 2),
-  ].filter(Boolean).map((img) => `${serverUrl}${img}`);
+  ].filter(Boolean).map((img) => `${serverUrl}${img}`); //asd
 
   return (
     <>
