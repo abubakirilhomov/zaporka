@@ -8,7 +8,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedProduct, addToCart, removeFromCart } from '@/redux/slices/cartSlice';
+import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
 import { toast, ToastContainer } from 'react-toastify';
 import CartModal from '@/components/ui/CartModal/CartModal';
@@ -18,11 +18,9 @@ import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-import ProductCard from '@/components/ui/ProductsCard/ProductsCard';
 
 const ProductPage = () => {
   const { id } = useParams();
-  console.log('Product ID:', id);
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const shouldReduceMotion = useReducedMotion();
   const { selectedProduct, userData } = useSelector((state) => state.cart);
@@ -37,15 +35,14 @@ const ProductPage = () => {
   const motionProps = shouldReduceMotion
     ? {}
     : {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      transition: { duration: 0.4, ease: 'easeOut' },
-    };
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.4, ease: 'easeOut' },
+      };
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     if (!product) return;
-    <ProductCard />
 
     const price = Number(product.price);
     if (isNaN(price)) {
@@ -60,28 +57,23 @@ const ProductPage = () => {
       currency: product.currency || '₽',
       quantity,
     };
-    console.log("productData", productData)
+
     const isUserDataComplete =
       userData.firstName &&
       userData.lastName &&
       userData.phoneNumber &&
       userData.address;
 
-    console.log("isUserDataComplete", isUserDataComplete)
-
     if (isUserDataComplete) {
       dispatch(addToCart(productData));
       toast.success(`${product.title} добавлен в корзину!`);
-
-      const orderData = {
-        products: [productData.id],
-        ...userData,
-        totalPrice: price,
-      };
-
-      console.log("order:", orderData)
     } else {
       dispatch(setSelectedProduct(productData));
+      // Open the modal programmatically
+      const modal = document.getElementById('my_modal_1');
+      if (modal) {
+        modal.showModal();
+      }
     }
   };
 
@@ -139,10 +131,8 @@ const ProductPage = () => {
 
   const images = [
     product.mainImage,
-    ...(product.swiperImages || []).slice(0, 2), // Ensure up to 3 images total (1 main + 2 from swiperImages)
+    ...(product.swiperImages || []).slice(0, 2),
   ].filter(Boolean).map((img) => `${serverUrl}${img}`);
-
-
 
   return (
     <>
@@ -163,7 +153,7 @@ const ProductPage = () => {
           setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
         />
 
-        <ToastContainer/>
+        <ToastContainer />
 
         <nav aria-label="Breadcrumb" className="pt-5">
           <ol className="flex space-x-2 text-neutral-400">
@@ -241,7 +231,6 @@ const ProductPage = () => {
                 </SwiperSlide>
               )}
             </Swiper>
-            {/* Thumbnail Swiper */}
             {images.length > 1 && (
               <Swiper
                 onSwiper={setThumbsSwiper}
@@ -296,41 +285,19 @@ const ProductPage = () => {
                 <p className="mt-4">{product.description}</p>
               )}
             </div>
-            <div className='flex items-center gap-2'>
-              <button
-                className="mt-6 btn w-full md:w-auto relative btn-primary font-semibold py-3 px-6 rounded-xl
-                  shadow-lg hover:shadow-xl
-                  transform transition-all duration-300 ease-in-out
-                  hover:scale-105 active:scale-95
-                  flex items-center justify-center gap-2
-                  group"
-                onClick={(e) => handleAddToCart(e)}
-                aria-label={`Добавить ${product.category.name} в корзину`}
-              >
-                <span className="relative z-10">Добавить в корзину</span>
-                <BsCartPlus
-                  size={20}
-                  className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
-                />
-                <span className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-              </button>
-              <div className="flex items-center gap-4 mt-4">
-                <button
-                  onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                  className="btn btn-sm btn-outline border-2 border-primary"
-                >
-                  <span className='text-warning font-bold '>-</span>
-                </button>
-                <span className="text-lg font-semibold border-2 border-primary pl-5 pr-5 rounded-xs  w-[105%]">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(prev => prev + 1)}
-                  className="btn btn-sm btn-outline border-2 border-primary"
-                >
-                  <span className='text-success font-bold'>+</span>
-                </button>
-              </div>
-            </div>
 
+            {/* Add to Cart Button */}
+            <div className="mt-6">
+              <button
+                onClick={handleAddToCart}
+                className="btn btn-primary w-full font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out flex items-center justify-center gap-2 relative overflow-hidden"
+                aria-label="Добавить в корзину"
+              >
+                <span className="absolute inset-0 bg-base-100 opacity-0 hover:opacity-10 transition-opacity duration-300 z-0"></span>
+                <BsCartPlus className="relative z-10" />
+                <span className="relative z-10">Добавить в корзину</span>
+              </button>
+            </div>
           </div>
         </div>
       </motion.main>
