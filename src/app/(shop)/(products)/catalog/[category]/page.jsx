@@ -12,7 +12,7 @@ import CartModal from '@/components/ui/CartModal/CartModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import CatalogSidebar from '@/components/ui/CatalogSidebar/CatalogSidebar';
 import Pagination from '@/components/ui/Pagination/Pagination';
 
@@ -178,6 +178,8 @@ const Page = () => {
               <li> / {decodedCategory}</li>
             </ol>
           </nav>
+
+          <ToastContainer/>
 
           {productsLoading && (
             <div className="flex justify-center mt-10">
