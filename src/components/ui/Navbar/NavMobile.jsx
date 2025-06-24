@@ -44,7 +44,7 @@
 
 
     return (
-      <nav className="md:hidden sticky top-0 z-50 bg-base-100 shadow-xs shadow-base-content px-4 py-3 border-b border-base-300">
+      <nav className="md:hidden sticky top-0 z-50 bg-base-100 shadow-xs px-4 py-3 border-b border-base-300">
         <div className="flex justify-between items-center">
           <button onClick={toggleDrawer} className="lg:hidden p-2">
             <FaBars className="text-xl" />
