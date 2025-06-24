@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import useFetch from '@/hooks/useFetch/useFetch';
-import Loading from '@/components/ui/Loading/Loading';
-import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
-import Head from 'next/head';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
-import { BsCartPlus } from 'react-icons/bs';
-import { toast, ToastContainer } from 'react-toastify';
-import CartModal from '@/components/ui/CartModal/CartModal';
-import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Thumbs } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import { useParams } from "next/navigation";
+import useFetch from "@/hooks/useFetch/useFetch";
+import Loading from "@/components/ui/Loading/Loading";
+import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
+import Head from "next/head";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedProduct, addToCart } from "@/redux/slices/cartSlice";
+import { BsCartPlus } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
+import CartModal from "@/components/ui/CartModal/CartModal";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Thumbs } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -28,16 +28,17 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const [imageErrors, setImageErrors] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const { data: product, loading, error } = useFetch(
-    `${serverUrl}/api/v1/products/${id}`,
-    {}
-  );
+  const {
+    data: product,
+    loading,
+    error,
+  } = useFetch(`${serverUrl}/api/v1/products/${id}`, {});
   const motionProps = shouldReduceMotion
     ? {}
     : {
         initial: { opacity: 0, y: 20 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.4, ease: 'easeOut' },
+        transition: { duration: 0.4, ease: "easeOut" },
       };
 
   const handleAddToCart = (e) => {
@@ -46,7 +47,7 @@ const ProductPage = () => {
 
     const price = Number(product.price);
     if (isNaN(price)) {
-      toast.error('Ошибка: некорректная цена товара');
+      toast.error("Ошибка: некорректная цена товара");
       return;
     }
 
@@ -54,7 +55,7 @@ const ProductPage = () => {
       id: product._id || product.id,
       title: product.title,
       price,
-      currency: product.currency || '₽',
+      currency: product.currency || "₽",
       quantity,
     };
 
@@ -70,7 +71,7 @@ const ProductPage = () => {
     } else {
       dispatch(setSelectedProduct(productData));
       // Open the modal programmatically
-      const modal = document.getElementById('my_modal_1');
+      const modal = document.getElementById("my_modal_1");
       if (modal) {
         modal.showModal();
       }
@@ -86,12 +87,12 @@ const ProductPage = () => {
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
       >
         <p className="text-error text-center mt-10">
-          {serverUrl ? 'Ошибка: товар не указан' : 'Ошибка: сервер не настроен'}
+          {serverUrl ? "Ошибка: товар не указан" : "Ошибка: сервер не настроен"}
         </p>
       </motion.main>
     );
   }
-
+  console.log("Загружаемый товар:", product);
   if (loading) {
     return (
       <motion.main
@@ -116,8 +117,8 @@ const ProductPage = () => {
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
       >
         <p className="text-error text-center mt-10">
-          Ошибка загрузки товара:{' '}
-          {error instanceof Error ? error.message : 'Товар не найден'}
+          Ошибка загрузки товара:{" "}
+          {error instanceof Error ? error.message : "Товар не найден"}
         </p>
         <Link
           href="/catalog"
@@ -132,7 +133,9 @@ const ProductPage = () => {
   const images = [
     product.mainImage,
     ...(product.swiperImages || []).slice(0, 2),
-  ].filter(Boolean).map((img) => `${serverUrl}${img}`); //asd
+  ]
+    .filter(Boolean)
+    .map((img) => `${serverUrl}${img}`); //asd
 
   return (
     <>
@@ -150,7 +153,9 @@ const ProductPage = () => {
       >
         <CartModal
           selectedProduct={selectedProduct}
-          setSelectedProduct={(product) => dispatch(setSelectedProduct(product))}
+          setSelectedProduct={(product) =>
+            dispatch(setSelectedProduct(product))
+          }
         />
 
         <ToastContainer />
@@ -170,8 +175,11 @@ const ProductPage = () => {
             </li>
             <li> / </li>
             <li>
-              <Link href={`/catalog/${product?.category?.name}`} className="hover:text-primary">
-                {product.category?.name || 'Без категории'}
+              <Link
+                href={`/catalog/${product?.category?.name}`}
+                className="hover:text-primary"
+              >
+                {product.category?.name || "Без категории"}
               </Link>
             </li>
             <li> / {product.title}</li>
@@ -269,20 +277,59 @@ const ProductPage = () => {
 
           {/* Product Details */}
           <div className="flex flex-col">
-            <h1 className="text-3xl font-bold">{product.title || 'Без названия'}</h1>
+            <h1 className="text-3xl font-bold">
+              {product.title || "Без названия"}
+            </h1>
             <p className="text-2xl font-semibold text-primary mt-2">
               {product.price
-                ? `${product.price} ${product.currency || 'UZS'}`
-                : 'Цена неизвестна'}
+                ? `${product.price} ${product.currency || "UZS"}`
+                : "Цена неизвестна"}
             </p>
-            <div className="mt-4 text-neutral-600 space-y-2">
-              {product.material && <p>Материал: {product.material}</p>}
-              {product.steelGrade && <p>Марка стали: {product.steelGrade}</p>}
-              {product.workingPressure && (
-                <p>Рабочее давление: {product.workingPressure} бар</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-neutral-700 text-sm">
+              {product.type && (
+                <p>
+                  <strong>Тип:</strong> {product.type}
+                </p>
               )}
-              {product.description && (
-                <p className="mt-4">{product.description}</p>
+              {product.size && (
+                <p>
+                  <strong>Размер:</strong> {product.size}
+                </p>
+              )}
+              {product.weight && (
+                <p>
+                  <strong>Вес:</strong> {product.weight}
+                </p>
+              )}
+              {product.maxTemperature && (
+                <p>
+                  <strong>Макс. температура:</strong> {product.maxTemperature}°C
+                </p>
+              )}
+              {product.pressure && (
+                <p>
+                  <strong>Давление:</strong> {product.pressure} бар
+                </p>
+              )}
+              {product.material && (
+                <p>
+                  <strong>Материал:</strong> {product.material}
+                </p>
+              )}
+              {product.category?.name && (
+                <p>
+                  <strong>Категория:</strong> {product.category.name}
+                </p>
+              )}
+              {product.controlType && (
+                <p>
+                  <strong>Тип управления:</strong> {product.controlType}
+                </p>
+              )}
+              {product.stock !== undefined && (
+                <p>
+                  <strong>В наличии:</strong> {product.stock} шт.
+                </p>
               )}
             </div>
 

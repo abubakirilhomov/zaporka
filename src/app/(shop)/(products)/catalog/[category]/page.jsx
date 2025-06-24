@@ -129,7 +129,7 @@ const Page = () => {
   const currentProducts = products ? products.slice(startIndex, endIndex) : [];
 
   const decodedCategory = decodeURIComponent(category);
-
+  console.log(products)
   return (
     <>
       <Head>
