@@ -76,22 +76,22 @@
         </div>
 
         {isDrawerOpen && (
-          <div className="w-[70%] mt-4 absolute rounded-2xl overflow-x-auto flex justify-between items-start left-0 h-[100vh] bg-base-300  z-40 transition-all duration-500 ease-in-out">
+          <div className="w-[70%] mt-4 absolute rounded-2xl overflow-x-auto flex justify-between items-start left-0 h-[100vh] bg-base-300  text-xs z-40 transition-all duration-500 ease-in-out">
             <div className="flex flex-col items-start p-2 w-full">
 
               {pages.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className="text-base-content pl-2 relative flex items-center justify-between w-full hover:bg-red-500 "
+                  className="text-base-content pl-2 relative flex items-center justify-between w-full hover:bg-error "
                 >
                   <div className='flex flex-col w-full'>
 
                     <div>
                       <div className='flex items-center gap-2 mt-4'>
-                        <span className='relative bottom-5'>{item.icon}</span>
+                        <span className='relative bottom-5 text-xs'>{item.icon}</span>
 
-                        <span className='font-bold relative bottom-5'>{item.name}</span>
+                        <span className='font-bold text-xs relative bottom-5'>{item.name}</span>
                       </div>
                       <hr className="my-2 border border-base-100 w-full relative bottom-3" />
 
@@ -103,7 +103,7 @@
 
 
               <Link href="/" className="text-base-content py-2 pl-2 flex items-center justify-between w-full">
-                <span className='font-bold'>Личный кабинет</span>
+                <span className='font-bold text-xs'>Личный кабинет</span>
               </Link>
               <hr className="my-2 border border-base-100 w-full" />
 
@@ -119,7 +119,7 @@
               <Link href="/saved" className="text-base-content py-5 pl-2 flex items-center justify-between w-full">
                 <span><i className="fa-regular fa-heart mr-2 font-bold" /> Отложенные</span>
 
-                <span className="badge badge-neutral badge-sm">Saved</span>
+                <span className="badge badge-neutral badge-sm bg-warning">Saved</span>
 
               </Link>
 
