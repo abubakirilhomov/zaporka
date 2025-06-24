@@ -2,18 +2,18 @@
 import Navbar from "@/components/ui/Navbar/NavCombined";
 import Footer from "@/components/ui/Footer/Footer";
 import Link from "next/link";
+import { TiShoppingCart } from "react-icons/ti";
 
 export const metadata = {
   title: "Zaporka - Магазин труб",
   description: "Просмотрите наш ассортимент труб в магазине Zaporka.",
 };
-import { TiShoppingCart } from "react-icons/ti";
 
 export default function ShopLayout({ children }) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow relative container mx-auto px- py-8">
+      <main className="flex-grow relative container mx-auto px-2 py-8">
         {children}
         <Link
           href="/cart"

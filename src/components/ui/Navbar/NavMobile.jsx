@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   FaBars,
   FaGift,
@@ -15,46 +14,14 @@ import { MdCategory, MdContactPhone } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
-import axios from "axios";
 import Image from "next/image";
-import logo from "../../../../public/images/logo.png"; // Adjusted path for cleaner import
+import logo from "../../../../public/images/logo.png"; // Adjust path based on your structure
+import SearchInput from "./SearchInput"; // Adjust path based on your structure
 import { useSelector } from "react-redux";
 
 export default function NavMobile() {
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "999001507";
   const telegramLink = process.env.NEXT_PUBLIC_TELEGRAM_LINK || "https://t.me/DoniyorSamadov";
-  const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
-  const cartItems = useSelector((state) => state.cartItems);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Debounced search
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchQuery) {
-        setIsLoading(true);
-        setError(null);
-        axios
-          .get(`${apiUrl}/api/v1/products/search?query=${encodeURIComponent(searchQuery)}`)
-          .then((res) => {
-            setSearchResults(res.data);
-            setIsLoading(false);
-          })
-          .catch((err) => {
-            console.error(err);
-            setError("Ошибка при поиске");
-            setIsLoading(false);
-          });
-      } else {
-        setSearchResults([]);
-        setIsLoading(false);
-      }
-    }, 300);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery, apiUrl]);
 
   const pages = [
     { name: "Каталог", href: "/catalog", icon: <MdCategory className="text-lg text-base-content" /> },
@@ -98,46 +65,8 @@ export default function NavMobile() {
         </div>
 
         {/* Search Input */}
-        <div className="relative mt-2">
-          <label className="input border rounded-2xl flex items-center h-10 border-primary bg-base-100 w-full">
-            <input
-              type="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Поиск товаров..."
-              className="text-base-content bg-transparent focus:outline-none w-full"
-              aria-label="Поиск товаров"
-            />
-            <svg
-              className="h-4 w-4 text-base-content flex-shrink-0 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-          </label>
-          {isLoading && <div className="p-2 bg-base-100 w-full shadow rounded">Загрузка...</div>}
-          {error && <div className="p-2 bg-base-100 w-full shadow rounded text-error">{error}</div>}
-          {searchResults.length > 0 && !isLoading && !error && (
-            <div className="absolute top-12 left-0 bg-base-100 w-full shadow rounded max-h-64 overflow-y-auto z-50">
-              {searchResults.map((item, i) => (
-                <Link
-                  key={item.id || i}
-                  href={`/products/${item.id}`}
-                  className="block p-2 border-b border-base-200 hover:bg-base-200"
-                  onClick={() => {
-                    setSearchResults([]);
-                    document.getElementById("my-drawer").checked = false;
-                  }}
-                >
-                  {item.title || item.name}
-                </Link>
-              ))}
-            </div>
-          )}
+        <div className="mt-2">
+          <SearchInput className="" mobile={true} />
         </div>
       </div>
 

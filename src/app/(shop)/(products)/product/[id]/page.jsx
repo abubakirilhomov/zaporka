@@ -27,7 +27,7 @@ const ProductPage = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const dispatch = useDispatch();
   const [imageErrors, setImageErrors] = useState({});
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1); // Initial quantity state
   const {
     data: product,
     loading,
@@ -40,6 +40,27 @@ const ProductPage = () => {
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.4, ease: "easeOut" },
       };
+
+  // Handle quantity increment
+  const handleIncrement = () => {
+    const maxQuantity = product.stock || Infinity;
+    if (quantity < maxQuantity) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+
+  // Handle quantity decrement
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  // Handle manual input change
+  const handleQuantityChange = (e) => {
+    const value = Math.max(1, Math.min(product.stock || Infinity, Number(e.target.value) || 1));
+    setQuantity(value);
+  };
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -92,7 +113,7 @@ const ProductPage = () => {
       </motion.main>
     );
   }
-  console.log("Загружаемый товар:", product);
+
   if (loading) {
     return (
       <motion.main
@@ -130,12 +151,9 @@ const ProductPage = () => {
     );
   }
 
-  const images = [
-    product.mainImage,
-    ...(product.swiperImages || []).slice(0, 2),
-  ]
+  const images = (product.images || [])
     .filter(Boolean)
-    .map((img) => `${serverUrl}${img}`); //asd
+    .map((img) => `${serverUrl}${img}`); // Use the new images array
 
   return (
     <>
@@ -331,6 +349,32 @@ const ProductPage = () => {
                   <strong>В наличии:</strong> {product.stock} шт.
                 </p>
               )}
+            </div>
+
+            {/* Quantity Controls */}
+            <div className="mt-6 flex items-center gap-4">
+              <button
+                onClick={handleDecrement}
+                className="btn btn-outline btn-primary w-10 h-10 rounded-full"
+                aria-label="Уменьшить количество"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min="1"
+                className="input input-bordered w-20 text-center"
+                aria-label="Количество товара"
+              />
+              <button
+                onClick={handleIncrement}
+                className="btn btn-outline btn-primary w-10 h-10 rounded-full"
+                aria-label="Увеличить количество"
+              >
+                +
+              </button>
             </div>
 
             {/* Add to Cart Button */}
