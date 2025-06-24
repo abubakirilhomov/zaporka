@@ -9,7 +9,7 @@ const Page = () => {
   const { data: categories, loading, error } = useFetch(`${serverUrl}/api/v1/categories`);
   console.log('Категории:', categories);
   return (
-    <main className="container mx-auto md:px-4 px-0 py-8">
+    <main className="container mx-auto md:px-4 px-2 py-8">
       <h1 className="text-3xl font-bold">Каталог</h1>
       <p className="text-neutral-400 pt-5">Главная - Каталог</p>
 

@@ -19,7 +19,6 @@ export function NavDesktop() {
   const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
   const searchRef = useRef(null);
 
-  // Close search results when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -30,7 +29,6 @@ export function NavDesktop() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Debounced search
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchQuery) {
@@ -59,7 +57,7 @@ export function NavDesktop() {
   return (
     <nav className="hidden md:flex justify-between items-center px-10 py-4 bg-base-100 shadow sticky top-0 z-50">
       <Link href="/" aria-label="Главная страница">
-        <Image src={logo} alt="Логотип компании" width={150} height={50} priority />
+        <Image src={logo} alt="Запорка" width={150} height={50} priority />
       </Link>
 
       <div className="relative w-1/2" ref={searchRef}>
