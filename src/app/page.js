@@ -2,8 +2,6 @@ import Catalog from "@/components/shop/Catalog/Catalog";
 import CustomSwiper from "@/components/ui/CustomSwiper/CustomSwiper";
 import Footer from "@/components/ui/Footer/Footer";
 import NavCombined from "@/components/ui/Navbar/NavCombined";
-import NavDesktop from "@/components/ui/Navbar/NavDesktop";
-import NavMobile from "@/components/ui/Navbar/NavMobile";
 import { ToastContainer } from "react-toastify";
 
 export default function Home() {
