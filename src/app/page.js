@@ -5,6 +5,7 @@ import NavCombined from "@/components/ui/Navbar/NavCombined";
 import { ToastContainer } from "react-toastify";
 import { TiShoppingCart } from "react-icons/ti";
 import Link from "next/link";
+import NavBottom from "./(shop)/navbottom/NavBottom";
 export default function Home() {
   const slides = [
     {
@@ -27,6 +28,7 @@ export default function Home() {
     <>
     <header>
       <NavCombined/>
+      <NavBottom/>
       <CustomSwiper slides={slides}/>
     </header>
     <main className="px-3 relative">

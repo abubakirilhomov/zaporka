@@ -29,7 +29,6 @@ export default function NavMobile() {
     { name: "Каталог", href: "/catalog", icon: <MdCategory className="text-lg text-base-content" /> },
     { name: "Компания", href: "/about", icon: <CgProfile className="text-lg text-base-content" /> },
     { name: "Контакты", href: "/contacts", icon: <MdContactPhone className="text-lg text-base-content" /> },
-
   ];
 
   return (
