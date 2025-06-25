@@ -33,7 +33,7 @@ export default function Home() {
       <Catalog/>
               <Link
           href="/cart"
-          className="py-3 bg-primary z-10 text-base-100 px-5 md:text-2xl fixed right-0 md:top-[30%] top-[20%] flex flex-col rounded-l-2xl rounded-none"
+          className="py-3 bg-primary z-10 text-base-100 px-5 md:text-2xl fixed right-0 md:top-[30%] top-[25%] flex flex-col rounded-l-2xl rounded-none"
         >
           <TiShoppingCart />
         </Link>

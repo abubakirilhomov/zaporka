@@ -22,7 +22,7 @@ export default function SearchPage() {
           const response = await axios.get(
             `${apiUrl}/api/v1/products/search?query=${encodeURIComponent(query)}`
           );
-          console.log("Search results:", response.data);
+          console.log("Search results:", response.data.results);
           // Extract the 'results' array from the response
           setSearchResults(response.data.results || []);
         } catch (err) {
@@ -48,7 +48,7 @@ export default function SearchPage() {
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {searchResults.map((item, index) => (
             <li key={index} className="p-4 bg-base-100 rounded shadow">
-              <Link href={`/products/${item.id}`}>
+              <Link href={`/products/product/${item._id}`}>
                 <h2 className="text-lg font-semibold">{item.title || item.name}</h2>
               </Link>
             </li>

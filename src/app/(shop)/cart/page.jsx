@@ -30,7 +30,7 @@ const CartItem = ({ item, onIncrement, onDecrement, onRemove }) => {
       <div className="flex-1">
         <h3 className="text-lg font-bold text-primary">{item.title}</h3>
         <p className="text-sm text-neutral-600 mt-1">
-          Цена: {item.price} {item.currency || "UZS"}
+          Цена: {item.price} {"UZS"}
         </p>
         {item.stock && (
           <p className="text-xs text-neutral-500 mt-1">

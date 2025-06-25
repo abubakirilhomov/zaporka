@@ -28,6 +28,8 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const [imageErrors, setImageErrors] = useState({});
   const [quantity, setQuantity] = useState(1); // Initial quantity state
+  const [inputValue, setInputValue] = useState("1");
+
   const {
     data: product,
     loading,
@@ -41,24 +43,30 @@ const ProductPage = () => {
         transition: { duration: 0.4, ease: "easeOut" },
       };
 
+  useEffect(() => {
+    if (product?.stock > 0) {
+      setQuantity(1);
+      setInputValue("1");
+    }
+  }, [product]);
+
   // Handle quantity increment
   const handleIncrement = () => {
-    const maxQuantity = product.stock || Infinity;
-    if (quantity < maxQuantity) {
+    if (product?.stock && quantity < product.stock) {
       setQuantity((prev) => prev + 1);
     }
   };
 
-  // Handle quantity decrement
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
   };
 
-  // Handle manual input change
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, Math.min(product.stock || Infinity, Number(e.target.value) || 1));
+    const input = Number(e.target.value);
+    if (isNaN(input)) return;
+    const value = Math.max(1, Math.min(product?.stock || 1, input));
     setQuantity(value);
   };
 
@@ -354,22 +362,48 @@ const ProductPage = () => {
             {/* Quantity Controls */}
             <div className="mt-6 flex items-center gap-4">
               <button
-                onClick={handleDecrement}
+                onClick={() => {
+                  if (quantity > 1) {
+                    const newQty = quantity - 1;
+                    setQuantity(newQty);
+                    setInputValue(String(newQty));
+                  }
+                }}
                 className="btn btn-outline btn-primary w-10 h-10 rounded-full"
                 aria-label="Уменьшить количество"
               >
                 -
               </button>
+
               <input
-                type="number"
-                value={quantity}
-                onChange={handleQuantityChange}
-                min="1"
+                type="text"
+                value={inputValue}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (/^\d*$/.test(val)) {
+                    setInputValue(val);
+                  }
+                }}
+                onBlur={() => {
+                  const num = Number(inputValue);
+                  const stock = product?.stock || 1;
+                  const validated = Math.max(1, Math.min(stock, num || 1));
+                  setQuantity(validated);
+                  setInputValue(String(validated));
+                }}
                 className="input input-bordered w-20 text-center"
                 aria-label="Количество товара"
               />
+
               <button
-                onClick={handleIncrement}
+                onClick={() => {
+                  const stock = product?.stock || Infinity;
+                  if (quantity < stock) {
+                    const newQty = quantity + 1;
+                    setQuantity(newQty);
+                    setInputValue(String(newQty));
+                  }
+                }}
                 className="btn btn-outline btn-primary w-10 h-10 rounded-full"
                 aria-label="Увеличить количество"
               >
