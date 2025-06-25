@@ -85,7 +85,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             Товар: {currentProduct.title} ({currentProduct?.price} {currentProduct.currency})
           </p>
         )}
-        <form className="space-y-3" onSubmit={handleSubmit}>
+        <form className="space-y-3 text-lg" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Имя"
@@ -103,20 +103,19 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             required
           />
           <div className="relative">
-            <span className="absolute inset-y-0 z-10 left-0 flex items-center pl-2 ">
-              +998
-            </span>
             <input
               type="tel"
-              className="input input-primary tabular-nums w-full pl-12"
-              placeholder="Телефон"
+              className="input input-primary tabular-nums w-full"
+              placeholder="Телефон +998"
               value={formData.phoneNumber}
               onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
               pattern="[0-9]*"
               minLength="8"
               maxLength="13"
-              title="Должно быть 8 цифр"
               inputMode="numeric"
+              aria-label="Телефон"
+              autoComplete="tel"
+              title="Введите номер телефона в формате +998XXXXXXXXX"
               required
             />
             {formData.phoneNumber.length > 0 && formData.phoneNumber.length < 8 && (
