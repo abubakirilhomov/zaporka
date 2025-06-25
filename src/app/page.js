@@ -28,7 +28,6 @@ export default function Home() {
     <>
     <header>
       <NavCombined/>
-      <NavBottom/>
       <CustomSwiper slides={slides}/>
     </header>
     <main className="px-3 relative">
