@@ -4,8 +4,11 @@ import Navbar from "@/components/ui/Navbar/NavCombined";
 import Footer from "@/components/ui/Footer/Footer";
 import Link from "next/link";
 import { TiShoppingCart } from "react-icons/ti";
+import { useSelector } from "react-redux";
 
 export default function ClientShell({ children }) {
+  const cartItems = useSelector((state) => state.cart);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -13,9 +16,10 @@ export default function ClientShell({ children }) {
         {children}
         <Link
           href="/cart"
-          className="py-3 z-10 bg-primary text-base-100 px-5 md:text-2xl fixed right-0 md:top-[30%] top-[25%] flex flex-col rounded-l-2xl rounded-none"
+          className="py-3 bg-primary z-10 text-base-100 px-5 fixed right-0 md:top-[30%] top-[25%] flex items-center gap-1 rounded-l-2xl rounded-none"
         >
           <TiShoppingCart />
+            <span className="rounded text-secondary font-bold">{cartItems?.items?.length != 0 ? cartItems?.items?.length : ""}</span>
         </Link>
       </main>
       <Footer />

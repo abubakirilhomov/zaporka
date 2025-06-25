@@ -2,7 +2,11 @@
 
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserData, setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
+import {
+  setUserData,
+  setSelectedProduct,
+  addToCart,
+} from '@/redux/slices/cartSlice';
 import { toast } from 'react-toastify';
 
 const CartModal = ({ selectedProduct, setSelectedProduct }) => {
@@ -21,6 +25,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!currentProduct) {
       toast.error('Товар не выбран');
       return;
@@ -31,7 +36,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
       return;
     }
 
-    if (quantity < 1) {
+    if (Number(quantity) < 1 || isNaN(Number(quantity))) {
       toast.error('Количество должно быть не менее 1');
       return;
     }
@@ -66,8 +71,10 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
 
   const handleQuantityChange = (e) => {
     const value = e.target.value;
-    if (value === '' || /^[0-9]*$/.test(value)) {
-      setQuantity(value);
+    if (value === '') {
+      setQuantity('');
+    } else if (/^\d+$/.test(value)) {
+      setQuantity(Number(value));
     }
   };
 
@@ -82,7 +89,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
         <h3 className="font-bold text-lg mb-4">Оформление заказа</h3>
         {currentProduct && (
           <p className="mb-4">
-            Товар: {currentProduct.title} ({currentProduct?.price} {'UZS'})
+            Товар: {currentProduct.title} ({currentProduct?.price} UZS)
           </p>
         )}
         <form className="space-y-3" onSubmit={handleSubmit}>
@@ -91,15 +98,20 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             placeholder="Имя"
             className="input input-primary w-full text-lg"
             value={formData.firstName}
-            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, firstName: e.target.value })
+            }
             required
+            autoFocus
           />
           <input
             type="text"
             placeholder="Фамилия"
             className="input input-primary w-full text-lg"
             value={formData.lastName}
-            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, lastName: e.target.value })
+            }
             required
           />
           <div className="relative">
@@ -108,28 +120,36 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
               className="input input-primary tabular-nums w-full text-lg"
               placeholder="Телефон +998"
               value={formData.phoneNumber}
-              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-              pattern="[0-9]*"
-              minLength="8"
-              maxLength="13"
+              onChange={(e) => {
+                const cleaned = e.target.value.replace(/\D/g, '');
+                setFormData({ ...formData, phoneNumber: cleaned });
+              }}
+              pattern="\d{8,13}"
+              minLength={8}
+              maxLength={13}
               inputMode="numeric"
               aria-label="Телефон"
               autoComplete="tel"
-              title="Введите номер телефона в формате +998XXXXXXXXX"
+              title="Введите номер телефона в формате 998XXXXXXXXX"
               required
             />
-            {formData.phoneNumber.length > 0 && formData.phoneNumber.length < 8 && (
-              <p className="text-error text-sm mt-1">Должно быть 8 цифр</p>
-            )}
+            {formData.phoneNumber.length > 0 &&
+              formData.phoneNumber.length < 8 && (
+                <p className="text-error text-sm mt-1">Минимум 8 цифр</p>
+              )}
           </div>
           <input
             type="text"
             placeholder="Адрес доставки"
             className="input input-primary w-full text-lg"
             value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, address: e.target.value })
+            }
             required
           />
+
+          {/* Количество */}
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -158,20 +178,25 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             </button>
           </div>
 
-          {/* КНОПКА: Добавить в корзину */}
+          {/* Кнопка */}
           <button
             type="submit"
             className="btn btn-primary w-full font-semibold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 ease-in-out flex items-center justify-center gap-2 relative overflow-hidden"
             aria-label="Добавить в корзину"
           >
-            {/* Эффект наведения, не перекрывающий клики */}
             <span className="absolute inset-0 bg-base-100 opacity-0 hover:opacity-10 transition-opacity duration-300 z-0"></span>
             <span className="relative z-10">Добавить в корзину</span>
           </button>
         </form>
+
+        {/* Кнопка Отмена */}
         <div className="modal-action">
           <form method="dialog">
-            <button className="btn" onClick={handleClose} aria-label="Отмена">
+            <button
+              className="btn"
+              onClick={handleClose}
+              aria-label="Отмена оформления"
+            >
               Отмена
             </button>
           </form>
