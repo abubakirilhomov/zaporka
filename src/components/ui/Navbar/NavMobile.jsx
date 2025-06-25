@@ -15,9 +15,11 @@ import { IoMdCall } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../../../public/images/logo.png"; // Adjust path based on your structure
-import SearchInput from "./SearchInput"; // Adjust path based on your structure
-import { useSelector } from "react-redux";
+import logo from "../../../../public/images/logo.png";
+import SearchInput from "./SearchInput";
+import { TiShoppingCart } from "react-icons/ti";
+import { TbBrandBulma } from "react-icons/tb";
+
 
 export default function NavMobile() {
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "999001507";
@@ -25,10 +27,9 @@ export default function NavMobile() {
 
   const pages = [
     { name: "Каталог", href: "/catalog", icon: <MdCategory className="text-lg text-base-content" /> },
-    { name: "Акции", href: "/", icon: <FaGift className="text-lg text-base-content" /> },
-    { name: "Услуги", href: "/", icon: <FaTools className="text-lg text-base-content" /> },
     { name: "Компания", href: "/", icon: <CgProfile className="text-lg text-base-content" /> },
     { name: "Контакты", href: "/contacts", icon: <MdContactPhone className="text-lg text-base-content" /> },
+    { name: "Брендь", href: "/", icon: <TbBrandBulma  className="text-lg text-base-content "/>, }
   ];
 
   return (
@@ -72,7 +73,7 @@ export default function NavMobile() {
 
       <div className="drawer-side">
         <label htmlFor="my-drawer" className="drawer-overlay"></label>
-        <div className="flex flex-col justify-between h-full w-72 bg-base-100">
+        <div className="flex flex-col justify-between h-full w-64 bg-base-100">
           <div className="px-4 py-3">
             <div className="flex justify-end mb-4">
               <label htmlFor="my-drawer" className="cursor-pointer" aria-label="Закрыть меню">
@@ -98,30 +99,13 @@ export default function NavMobile() {
             </ul>
           </div>
 
-          {/* Bottom section */}
-          <div className="border-t border-base-content px-4 py-3 space-y-3 text-sm text-base-content">
-            <Link
-              href="/favorites"
-              className="flex items-center justify-between hover:text-primary"
-              onClick={() => document.getElementById("my-drawer").checked = false}
-            >
-              <span className="flex items-center gap-2">
-                <FaHeart className="w-5 h-5 text-base-content" aria-hidden="true" />
-                Отложенные
-              </span>
-              <span className="bg-base-300 text-xs px-2 py-0.5 rounded-full">0</span>
-            </Link>
-            <Link
-              href="/compare"
-              className="flex items-center justify-between hover:text-primary"
-              onClick={() => document.getElementById("my-drawer").checked = false}
-            >
-              <span className="flex items-center gap-2">
-                <FaChartBar className="w-5 h-5 text-base-content" aria-hidden="true" />
-                Сравнение
-              </span>
-              <span className="bg-base-300 text-xs px-2 py-0.5 rounded-full">0</span>
-            </Link>
+          <div className="border-t border-base-300 px-4 py-3 space-y-3 text-sm text-base-content">
+              <div className="flex justify-between items-center">
+              <Link href={'/korzina'} className="flex items-center justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content text-xl">
+                Корзина
+              </Link>
+              <p className="text-xl text-success"><TiShoppingCart /></p>
+              </div>
           </div>
         </div>
       </div>
