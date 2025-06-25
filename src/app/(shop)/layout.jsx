@@ -1,8 +1,11 @@
 // app/(shop)/layout.jsx
-import Navbar from "@/components/ui/Navbar/NavCombined";
-import Footer from "@/components/ui/Footer/Footer";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { TiShoppingCart } from "react-icons/ti";
+
+// динамически загружаем клиентские компоненты, чтобы layout оставался серверным
+const Navbar = dynamic(() => import("@/components/ui/Navbar/NavCombined"), { ssr: false });
+const Footer = dynamic(() => import("@/components/ui/Footer/Footer"), { ssr: false });
 
 export const metadata = {
   title: "Zaporka - Магазин труб",
@@ -19,11 +22,10 @@ export default function ShopLayout({ children }) {
           href="/cart"
           className="py-3 bg-primary text-base-100 px-5 md:text-2xl fixed right-0 md:top-[30%] top-[20%] flex flex-col rounded-l-2xl rounded-none"
         >
-          <TiShoppingCart/>
+          <TiShoppingCart />
         </Link>
       </main>
       <Footer />
     </div>
   );
 }
-//asdasd
