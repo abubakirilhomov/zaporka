@@ -7,7 +7,7 @@ import { CgMenuGridO } from "react-icons/cg";
 const NavBottom = () => {
   const pages = [
     { name: 'Главная', href: '/', icon: <CgMenuGridO className="text-2xl" /> },
-    { name: 'Каталог', href: '/catalog', icon: <MdCategory className="text-2xl" /> },
+    { name: 'Каталог', href: '/products/catalog', icon: <MdCategory className="text-2xl" /> },
     { name: 'Компания', href: '/about', icon: <CgProfile className="text-2xl" /> },
     { name: 'Контакты', href: '/contacts', icon: <MdContactPhone className="text-2xl" /> },
   ]
