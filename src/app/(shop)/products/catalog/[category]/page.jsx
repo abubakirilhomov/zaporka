@@ -257,7 +257,7 @@ const Page = () => {
                 <div className="text-center mt-10">
                   <p className="text-neutral-500">Товары в категории не найдены</p>
                   <Link
-                    href="/catalog"
+                    href="/products/catalog"
                     className="mt-4 inline-block px-4 py-2 bg-primary text-base-100 rounded hover:bg-primary-dark"
                   >
                     Вернуться в каталог

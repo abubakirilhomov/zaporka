@@ -150,7 +150,7 @@ const ProductPage = () => {
           {error instanceof Error ? error.message : "Товар не найден"}
         </p>
         <Link
-          href="/catalog"
+          href="/products/catalog"
           className="mt-4 inline-block px-4 py-2 bg-primary text-base-300 rounded hover:bg-primary-dark"
         >
           Вернуться в каталог
