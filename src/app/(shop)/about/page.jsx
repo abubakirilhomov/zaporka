@@ -15,7 +15,6 @@ const Page = () => {
     try {
       const request = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/company-info`)
       const response = await request.json()
-      console.log("INFO", response)
       setInfo(response)
     } catch (error) {
       console.error("Fetch error:", error)

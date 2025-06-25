@@ -22,7 +22,6 @@ export default function SearchPage() {
           const response = await axios.get(
             `${apiUrl}/api/v1/products/search?query=${encodeURIComponent(query)}`
           );
-          console.log("Search results:", response.data.results);
           // Extract the 'results' array from the response
           setSearchResults(response.data.results || []);
         } catch (err) {

@@ -7,7 +7,6 @@ import React from 'react';
 const Page = () => {
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const { data: categories, loading, error } = useFetch(`${serverUrl}/api/v1/categories`);
-  console.log('Категории:', categories);
   return (
     <main className="container mx-auto md:px-4 py-8">
       <h1 className="text-3xl font-bold">Каталог</h1>

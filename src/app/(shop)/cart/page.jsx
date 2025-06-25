@@ -144,7 +144,6 @@ const CartPage = () => {
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.message || "Ошибка при оформлении");
-
       toast.success("Заказ успешно оформлен!");
       dispatch(clearCart());
     } catch (err) {
@@ -249,7 +248,7 @@ const CartPage = () => {
             </button>
           </motion.div>
         )}
-        <ToastContainer/>
+
       </motion.main>
     </>
   );

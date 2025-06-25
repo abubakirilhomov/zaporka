@@ -11,9 +11,6 @@ const BannerPage = () => {
   const [loading, setLoading] = useState(true);
   const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
-  console.log(slides);
-  
-
   useEffect(() => {
     if (!baseURL) {
       console.error("NEXT_PUBLIC_SERVER_URL is not defined in .env");

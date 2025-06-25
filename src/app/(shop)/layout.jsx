@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import ClientShell from "./ClientShell";
 
 export const metadata = {
