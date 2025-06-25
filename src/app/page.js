@@ -3,7 +3,8 @@ import CustomSwiper from "@/components/ui/CustomSwiper/CustomSwiper";
 import Footer from "@/components/ui/Footer/Footer";
 import NavCombined from "@/components/ui/Navbar/NavCombined";
 import { ToastContainer } from "react-toastify";
-
+import { TiShoppingCart } from "react-icons/ti";
+import Link from "next/link";
 export default function Home() {
   const slides = [
     {
@@ -28,8 +29,14 @@ export default function Home() {
       <NavCombined/>
       <CustomSwiper slides={slides}/>
     </header>
-    <main className="px-3">
+    <main className="px-3 relative">
       <Catalog/>
+              <Link
+          href="/cart"
+          className="py-3 bg-primary z-10 text-base-100 px-5 md:text-2xl fixed right-0 md:top-[30%] top-[20%] flex flex-col rounded-l-2xl rounded-none"
+        >
+          <TiShoppingCart />
+        </Link>
     </main>
     <footer>
       <Footer />
