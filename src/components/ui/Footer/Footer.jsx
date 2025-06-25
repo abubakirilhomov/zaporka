@@ -35,7 +35,6 @@ export default function Footer() {
           </p>
         </div>
 
-
         <div className=''>
           <h3 className="font-bold uppercase mb-3">Контакты</h3>
           <ul className="space-y-3 text-sm flex justify-center">

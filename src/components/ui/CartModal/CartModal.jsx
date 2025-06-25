@@ -82,7 +82,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
         <h3 className="font-bold text-lg mb-4">Оформление заказа</h3>
         {currentProduct && (
           <p className="mb-4">
-            Товар: {currentProduct.title} ({currentProduct?.price} {currentProduct.currency})
+            Товар: {currentProduct.title} ({currentProduct?.price} {'UZS'})
           </p>
         )}
         <form className="space-y-3 text-lg" onSubmit={handleSubmit}>

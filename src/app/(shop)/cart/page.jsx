@@ -243,7 +243,7 @@ const CartPage = () => {
             <p className="mb-6 text-lg">Корзина пуста</p>
             <button
               className="btn btn-primary py-2 px-6 rounded-xl hover:bg-primary-dark transition-colors"
-              onClick={() => router.push("/catalog")}
+              onClick={() => router.push("/products/catalog")}
             >
               Перейти к покупкам
             </button>
