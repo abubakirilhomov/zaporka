@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import cartReducer from './slices/cartSlice';
 import authReducer from './slices/authSlice';
-
+import companyInfoReducer from './slices/companyInfoSlice';
 const persistConfig = {
   key: 'root',
   storage,
@@ -15,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   cart: cartReducer,
   auth: authReducer,
+  companyInfo: companyInfoReducer,
 });
 
 // Оборачиваем корневой редьюсер в persistReducer

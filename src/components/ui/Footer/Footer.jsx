@@ -1,23 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 
 export default function Footer() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch('https://zaporka-backend.onrender.com/api/v1/company-info')
-      .then((res) => res.json())
-      .then((json) => setData(json))
-      .catch((err) => console.error('Ошибка при загрузке данных:', err));
-  }, []);
-
+  const info = useSelector((state) => state.companyInfo);
+  const data = info?.info;
+  console.log("Footer data:", data);
   return (
     <footer className="bg-base-200 text-base-content py-10 px-4">
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:flex md:justify-between gap-8 text-left md:text-center">
-        {/* Каталог */}
         <div className='md:text-left text-center'>
           <h3 className="font-bold uppercase mb-3">Каталог</h3>
           <ul className="space-y-2 text-sm">
@@ -25,7 +18,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* О компании */}
         <div className='md:text-left text-center'>
           <h3 className="font-bold uppercase mb-3">Компания</h3>
           <ul className="space-y-2 text-sm">
@@ -66,7 +58,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Подвал */}
       <div className="border-t border-base-300 mt-10 pt-6 text-sm text-center px-2">
         <p>
           2025 © Запорка.uz – клапана, задвижки, затворы,

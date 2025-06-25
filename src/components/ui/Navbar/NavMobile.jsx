@@ -20,10 +20,9 @@ import SearchInput from "./SearchInput";
 import { TiShoppingCart } from "react-icons/ti";
 import { TbBrandBulma } from "react-icons/tb";
 
-export default function NavMobile() {
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "999001507";
-  const telegramLink =
-    process.env.NEXT_PUBLIC_TELEGRAM_LINK || "https://t.me/DoniyorSamadov";
+export default function NavMobile({ info }) {
+  const phoneNumber = info?.phoneNumbers[0] || "999001507";
+  const telegramLink = info?.telegram || "https://t.me/DoniyorSamadov";
 
   const pages = [
     { name: "Главная", href: "/", icon: <CgMenuGridO className="text-2xl" /> },

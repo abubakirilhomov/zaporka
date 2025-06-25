@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { NavDesktop } from './NavDesktop';
 import NavMobile   from './NavMobile';
 import NavBottom from '@/components/ui/Navbottom/NavBottom';
+import { useSelector } from 'react-redux';
 
 export default function NavCombined() {
   const [isMobile, setIsMobile] = useState(false);
+  const info = useSelector((state) => state.companyInfo);
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,7 +27,7 @@ export default function NavCombined() {
 
   return (
     <>
-      {isMobile ? <NavMobile /> : <div><NavDesktop /> <NavBottom /></div>}
+      {isMobile ? <NavMobile info={info.info}/> : <div><NavDesktop info={info.info}/> <NavBottom /></div>}
     </>
   );
 }

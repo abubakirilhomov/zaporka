@@ -8,8 +8,7 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
 export default function ClientShell({ children }) {
-  const cartItems = useSelector((state) => state.cart);
-
+    const cartItems = useSelector((state) => state.cart);
   return (
     <div className="flex flex-col min-h-screen">
       <ToastContainer />

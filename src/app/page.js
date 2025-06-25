@@ -3,13 +3,19 @@ import Catalog from "@/components/shop/Catalog/Catalog";
 import CustomSwiper from "@/components/ui/CustomSwiper/CustomSwiper";
 import Footer from "@/components/ui/Footer/Footer";
 import NavCombined from "@/components/ui/Navbar/NavCombined";
-import { ToastContainer } from "react-toastify";
 import { TiShoppingCart } from "react-icons/ti";
 import Link from "next/link";
-import NavBottom from "../components/ui/Navbottom/NavBottom";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchCompanyInfo } from "@/redux/slices/companyInfoSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function Home() {
   const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCompanyInfo());
+  }, [dispatch]);
+
   return (
     <>
       <header>
@@ -23,13 +29,14 @@ export default function Home() {
           className="py-3 bg-primary z-10 text-base-100 px-5 fixed right-0 md:top-[30%] top-[25%] flex items-center gap-1 rounded-l-2xl rounded-none"
         >
           <TiShoppingCart />
-            <span className="rounded text-warning font-bold">{cartItems?.items?.length != 0 ? cartItems?.items?.length : ""}</span>
+          <span className="rounded text-warning font-bold">
+            {cartItems?.items?.length != 0 ? cartItems?.items?.length : ""}
+          </span>
         </Link>
       </main>
       <footer>
         <Footer />
       </footer>
-      <ToastContainer />
     </>
   );
 }

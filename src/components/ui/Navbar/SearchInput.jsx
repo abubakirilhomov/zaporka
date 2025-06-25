@@ -23,6 +23,7 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
         axios
           .get(`${apiUrl}/api/v1/products/search?query=${encodeURIComponent(searchQuery)}`)
           .then((res) => {
+            console.log("Search results:", res.data);
             setSearchResults(res.data.results || []);
             setIsLoading(false);
           })
@@ -90,7 +91,7 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
               {searchResults.map((item, i) => (
                 <Link
                   key={item.id || i}
-                  href={`/products/${item.id}`}
+                  href={`/products/product/${item._id}`}
                   className="block p-2 border-b border-base-200 hover:bg-base-200"
                   onClick={() => setSearchResults([])}
                 >
