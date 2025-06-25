@@ -33,7 +33,7 @@ const CatalogCard = ({ categories, serverUrl }) => {
                   // Запасное изображение или заполнитель
                   <div className="w-full h-32 bg-base-200 flex flex-col items-center justify-center rounded">
                     <svg
-                      className="w-12 h-12 text-neutral-400"
+                      className="w-12 h-12 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
