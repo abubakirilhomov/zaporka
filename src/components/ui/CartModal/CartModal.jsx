@@ -118,7 +118,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             <input
               type="tel"
               className="input input-primary tabular-nums w-full text-lg"
-              placeholder="Телефон +998"
+              placeholder="Телефон 998"
               value={formData.phoneNumber}
               onChange={(e) => {
                 const cleaned = e.target.value.replace(/\D/g, '');
