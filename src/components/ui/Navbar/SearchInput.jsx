@@ -67,7 +67,7 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleSearch}
           placeholder="Поиск товаров..."
-          className="text-base-content bg-transparent focus:outline-none w-full"
+          className="text-base-content text-lg bg-transparent focus:outline-none w-full"
           aria-label="Поиск товаров"
         />
         <svg
