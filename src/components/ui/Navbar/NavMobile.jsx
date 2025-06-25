@@ -29,7 +29,6 @@ export default function NavMobile() {
     { name: "Каталог", href: "/catalog", icon: <MdCategory className="text-lg text-base-content" /> },
     { name: "Компания", href: "/", icon: <CgProfile className="text-lg text-base-content" /> },
     { name: "Контакты", href: "/contacts", icon: <MdContactPhone className="text-lg text-base-content" /> },
-    { name: "Брендь", href: "/", icon: <TbBrandBulma  className="text-lg text-base-content "/>, }
   ];
 
   return (
@@ -101,10 +100,10 @@ export default function NavMobile() {
 
           <div className="border-t border-base-300 px-4 py-3 space-y-3 text-sm text-base-content">
               <div className="flex justify-between items-center">
-              <Link href={'/korzina'} className="flex items-center justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content text-xl">
+              <Link href={'/cart'} className="flex items-center justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content text-xl">
                 Корзина
               </Link>
-              <p className="text-xl text-success"><TiShoppingCart /></p>
+              <p className="text-xl text-primary"><TiShoppingCart /></p>
               </div>
           </div>
         </div>
