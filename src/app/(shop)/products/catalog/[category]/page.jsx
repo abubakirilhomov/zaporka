@@ -178,7 +178,6 @@ const Page = () => {
             </ol>
           </nav>
 
-          <ToastContainer/>
 
           {productsLoading && (
             <div className="flex justify-center mt-10">

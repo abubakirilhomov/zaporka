@@ -5,16 +5,10 @@ import Footer from "@/components/ui/Footer/Footer";
 import NavCombined from "@/components/ui/Navbar/NavCombined";
 import { TiShoppingCart } from "react-icons/ti";
 import Link from "next/link";
-import { useEffect } from "react";
-import { fetchCompanyInfo } from "@/redux/slices/companyInfoSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const cartItems = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchCompanyInfo());
-  }, [dispatch]);
 
   return (
     <>

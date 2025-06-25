@@ -184,7 +184,6 @@ const ProductPage = () => {
           }
         />
 
-        <ToastContainer />
 
         <nav aria-label="Breadcrumb" className="pt-5">
           <ol className="flex space-x-2 text-neutral-400">

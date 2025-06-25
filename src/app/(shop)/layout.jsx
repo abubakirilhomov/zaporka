@@ -7,5 +7,15 @@ export const metadata = {
 };
 
 export default function ShopLayout({ children }) {
-  return <ClientShell>{children}</ClientShell>;
+  return (
+    <>
+      <ClientShell>{children}</ClientShell>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        pauseOnHover
+        theme="light"
+      />
+    </>
+  );
 }

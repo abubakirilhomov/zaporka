@@ -4,14 +4,19 @@ import Navbar from "@/components/ui/Navbar/NavCombined";
 import Footer from "@/components/ui/Footer/Footer";
 import Link from "next/link";
 import { TiShoppingCart } from "react-icons/ti";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { fetchCompanyInfo } from "@/redux/slices/companyInfoSlice";
+import { useEffect } from "react";
 
 export default function ClientShell({ children }) {
-    const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCompanyInfo());
+  }, [dispatch]);
   return (
     <div className="flex flex-col min-h-screen">
-      <ToastContainer />
       <Navbar />
       <main className="flex-grow relative container mx-auto px-2 py-8">
         {children}
