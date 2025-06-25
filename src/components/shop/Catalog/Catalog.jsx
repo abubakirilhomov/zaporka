@@ -11,7 +11,6 @@ const Catalog = () => {
   return (
     <div className="flex flex-col md:flex-row container mx-auto md:px-4 px-0 py-8">
 
-      {/* Основной контент */}
       <main className="flex-1 md:pl-6">
         <h1 className="text-3xl font-bold">Каталог</h1>
         <p className="text-neutral-400 pt-2">Главная - Каталог</p>

@@ -28,7 +28,7 @@ const ProductCard = ({
     <motion.div {...motionProps} className="flex">
       <div className="relative flex flex-col items-center w-full">
         <Link
-          href={`/product/${productId}`}
+          href={`/products/product/${productId}`}
           className="relative p-4 rounded-2xl border border-neutral-300 flex flex-col items-center w-full hover:shadow-lg transition-shadow"
           aria-label={`Посмотреть ${product.title || 'товар'}`}
         >

@@ -27,7 +27,9 @@ const ProductPage = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const dispatch = useDispatch();
   const [imageErrors, setImageErrors] = useState({});
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1); // Initial quantity state
+  const [inputValue, setInputValue] = useState("1");
+
   const {
     data: product,
     loading,
@@ -40,6 +42,33 @@ const ProductPage = () => {
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.4, ease: "easeOut" },
       };
+
+  useEffect(() => {
+    if (product?.stock > 0) {
+      setQuantity(1);
+      setInputValue("1");
+    }
+  }, [product]);
+
+  // Handle quantity increment
+  const handleIncrement = () => {
+    if (product?.stock && quantity < product.stock) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleQuantityChange = (e) => {
+    const input = Number(e.target.value);
+    if (isNaN(input)) return;
+    const value = Math.max(1, Math.min(product?.stock || 1, input));
+    setQuantity(value);
+  };
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -92,7 +121,7 @@ const ProductPage = () => {
       </motion.main>
     );
   }
-  console.log("Загружаемый товар:", product);
+
   if (loading) {
     return (
       <motion.main
@@ -130,12 +159,9 @@ const ProductPage = () => {
     );
   }
 
-  const images = [
-    product.mainImage,
-    ...(product.swiperImages || []).slice(0, 2),
-  ]
+  const images = (product.images || [])
     .filter(Boolean)
-    .map((img) => `${serverUrl}${img}`); //asd
+    .map((img) => `${serverUrl}${img}`); // Use the new images array
 
   return (
     <>
@@ -176,7 +202,7 @@ const ProductPage = () => {
             <li> / </li>
             <li>
               <Link
-                href={`/catalog/${product?.category?.name}`}
+                href={`/products/catalog/${product?.category?.name}`}
                 className="hover:text-primary"
               >
                 {product.category?.name || "Без категории"}
@@ -331,6 +357,58 @@ const ProductPage = () => {
                   <strong>В наличии:</strong> {product.stock} шт.
                 </p>
               )}
+            </div>
+
+            {/* Quantity Controls */}
+            <div className="mt-6 flex items-center gap-4">
+              <button
+                onClick={() => {
+                  if (quantity > 1) {
+                    const newQty = quantity - 1;
+                    setQuantity(newQty);
+                    setInputValue(String(newQty));
+                  }
+                }}
+                className="btn btn-outline btn-primary w-10 h-10 rounded-full"
+                aria-label="Уменьшить количество"
+              >
+                -
+              </button>
+
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (/^\d*$/.test(val)) {
+                    setInputValue(val);
+                  }
+                }}
+                onBlur={() => {
+                  const num = Number(inputValue);
+                  const stock = product?.stock || 1;
+                  const validated = Math.max(1, Math.min(stock, num || 1));
+                  setQuantity(validated);
+                  setInputValue(String(validated));
+                }}
+                className="input input-bordered w-20 text-center"
+                aria-label="Количество товара"
+              />
+
+              <button
+                onClick={() => {
+                  const stock = product?.stock || Infinity;
+                  if (quantity < stock) {
+                    const newQty = quantity + 1;
+                    setQuantity(newQty);
+                    setInputValue(String(newQty));
+                  }
+                }}
+                className="btn btn-outline btn-primary w-10 h-10 rounded-full"
+                aria-label="Увеличить количество"
+              >
+                +
+              </button>
             </div>
 
             {/* Add to Cart Button */}

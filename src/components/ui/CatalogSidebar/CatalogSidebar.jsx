@@ -1,12 +1,19 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { FiGrid, FiChevronDown, FiChevronRight } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import { FiGrid, FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const CatalogSidebar = ({ categories, loading }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false); // Default to false, will be updated in useEffect
+
+  // Set initial open state based on screen size
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768; // Tailwind's 'md' breakpoint
+    setOpen(!isMobile); // Open by default on non-mobile (≥768px), closed on mobile (<768px)
+  }, []);
+
   const safeCategories = Array.isArray(categories) ? categories : [];
 
   return (
@@ -28,9 +35,9 @@ const CatalogSidebar = ({ categories, loading }) => {
           <motion.div
             key="categories"
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
             <div className="flex flex-col divide-y divide-base-200 border border-base-200 rounded-md">
@@ -48,7 +55,7 @@ const CatalogSidebar = ({ categories, loading }) => {
                 safeCategories.map((cat) => (
                   <Link
                     key={cat._id}
-                    href={`/catalog/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={`/products/catalog/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, "-")}`}
                     className="px-4 py-3 text-sm bg-base-100 hover:bg-base-200 cursor-pointer flex justify-between items-center"
                   >
                     <span>{cat.name}</span>
