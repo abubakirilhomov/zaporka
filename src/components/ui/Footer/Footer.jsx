@@ -21,24 +21,23 @@ export default function Footer() {
         <div>
           <h3 className="font-bold uppercase mb-3">Каталог</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#" className="hover:underline">Клапаны</Link></li>
-            <li><Link href="#" className="hover:underline">Задвижки</Link></li>
-            <li><Link href="#" className="hover:underline">Затворы</Link></li>
+            <li><Link href="#" className="hover:underline">Смотреть Каталог</Link></li>
           </ul>
         </div>
 
         {/* О компании */}
         <div>
           <h3 className="font-bold uppercase mb-3">Компания</h3>
-          <p className="text-sm leading-relaxed">
-            {data?.companyInfo || 'Загрузка информации...'}
-          </p>
+          <ul className="space-y-2 text-sm">
+            <li><Link href="#" className="hover:underline">О компании</Link></li>
+            <li><Link href="#" className="hover:underline">Контакты</Link></li>
+          </ul>
         </div>
 
 
         <div className=''>
           <h3 className="font-bold uppercase mb-3">Контакты</h3>
-          <ul className="space-y-3 text-sm flex justify-center">
+          <ul className="space-y-3 text-sm ">
             {data?.phoneNumbers?.map((phone, index) => (
               <li key={index} className="flex items-center justify-center md:justify-start gap-2">
                 <MdPhone />
