@@ -55,7 +55,7 @@ const CatalogSidebar = ({ categories, loading }) => {
                 safeCategories.map((cat) => (
                   <Link
                     key={cat._id}
-                    href={`/catalog/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, "-")}`}
+                    href={`/products/catalog/${cat.slug || cat.name.toLowerCase().replace(/\s+/g, "-")}`}
                     className="px-4 py-3 text-sm bg-base-100 hover:bg-base-200 cursor-pointer flex justify-between items-center"
                   >
                     <span>{cat.name}</span>

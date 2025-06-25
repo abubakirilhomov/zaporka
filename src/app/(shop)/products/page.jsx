@@ -1,5 +1,4 @@
-// app/(shop)/(products)/page.jsx
-import ProductCard from '@/components/shop/ProductCard';
+// app/(shop)/(products)/page.jsx';
 
 export default function Products() {
   return (

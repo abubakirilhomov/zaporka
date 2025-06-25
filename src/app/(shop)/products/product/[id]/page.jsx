@@ -194,7 +194,7 @@ const ProductPage = () => {
             <li> / </li>
             <li>
               <Link
-                href={`/catalog/${product?.category?.name}`}
+                href={`/products/catalog/${product?.category?.name}`}
                 className="hover:text-primary"
               >
                 {product.category?.name || "Без категории"}

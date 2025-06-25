@@ -19,7 +19,7 @@ const CatalogCard = ({ categories, serverUrl }) => {
             className="w-full sm:max-w-[100%] md:max-w-[354px] lg:max-w-[300px] md:mb-2 sm:mb-0"
           >
             <Link
-              href={`/catalog/${category.slug}`}
+              href={`/products/catalog/${category.slug}`}
               className="p-6 sm:p-8 flex-1 h-full border border-neutral-400 md:rounded flex flex-col justify-between items-center"
             >
               <div className="relative w-full h-32 mb-3">
