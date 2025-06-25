@@ -5,7 +5,7 @@ import NavCombined from "@/components/ui/Navbar/NavCombined";
 import { ToastContainer } from "react-toastify";
 import { TiShoppingCart } from "react-icons/ti";
 import Link from "next/link";
-import NavBottom from "./(shop)/navbottom/NavBottom";
+import NavBottom from "../components/ui/Navbottom/NavBottom";
 export default function Home() {
   const slides = [
     {

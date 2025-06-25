@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { NavDesktop } from './NavDesktop';
 import NavMobile   from './NavMobile';
-import NavBottom from '@/app/(shop)/navbottom/NavBottom';
+import NavBottom from '@/components/ui/Navbottom/NavBottom';
 
 export default function NavCombined() {
   const [isMobile, setIsMobile] = useState(false);

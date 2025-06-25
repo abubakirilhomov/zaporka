@@ -9,7 +9,7 @@ import {
   FaChartBar,
   FaChevronRight,
 } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
+import { CgMenuGridO, CgProfile } from "react-icons/cg";
 import { MdCategory, MdContactPhone } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
@@ -20,15 +20,28 @@ import SearchInput from "./SearchInput";
 import { TiShoppingCart } from "react-icons/ti";
 import { TbBrandBulma } from "react-icons/tb";
 
-
 export default function NavMobile() {
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "999001507";
-  const telegramLink = process.env.NEXT_PUBLIC_TELEGRAM_LINK || "https://t.me/DoniyorSamadov";
+  const telegramLink =
+    process.env.NEXT_PUBLIC_TELEGRAM_LINK || "https://t.me/DoniyorSamadov";
 
   const pages = [
-    { name: "Каталог", href: "/catalog", icon: <MdCategory className="text-lg text-base-content" /> },
-    { name: "Компания", href: "/about", icon: <CgProfile className="text-lg text-base-content" /> },
-    { name: "Контакты", href: "/contacts", icon: <MdContactPhone className="text-lg text-base-content" /> },
+    { name: "Главная", href: "/", icon: <CgMenuGridO className="text-2xl" /> },
+    {
+      name: "Каталог",
+      href: "/catalog",
+      icon: <MdCategory className="text-lg text-base-content" />,
+    },
+    {
+      name: "Компания",
+      href: "/about",
+      icon: <CgProfile className="text-lg text-base-content" />,
+    },
+    {
+      name: "Контакты",
+      href: "/contacts",
+      icon: <MdContactPhone className="text-lg text-base-content" />,
+    },
   ];
 
   return (
@@ -36,12 +49,25 @@ export default function NavMobile() {
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content bg-base-100 shadow-xs px-4 py-3 border-b border-base-300">
         <div className="flex justify-between items-center">
-          <label htmlFor="my-drawer" className="p-2 cursor-pointer" aria-label="Открыть меню">
+          <label
+            htmlFor="my-drawer"
+            className="p-2 cursor-pointer"
+            aria-label="Открыть меню"
+          >
             <FaBars className="w-6 h-6 text-base-content" />
           </label>
 
-          <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
-            <Image src={logo} alt="Логотип компании" width={100} height={40} priority />
+          <Link
+            href="/"
+            className="absolute left-1/2 transform -translate-x-1/2"
+          >
+            <Image
+              src={logo}
+              alt="Логотип компании"
+              width={100}
+              height={40}
+              priority
+            />
           </Link>
 
           <div className="flex items-center gap-3">
@@ -75,7 +101,11 @@ export default function NavMobile() {
         <div className="flex flex-col justify-between h-full w-64 bg-base-100">
           <div className="px-4 py-3">
             <div className="flex justify-end mb-4">
-              <label htmlFor="my-drawer" className="cursor-pointer" aria-label="Закрыть меню">
+              <label
+                htmlFor="my-drawer"
+                className="cursor-pointer"
+                aria-label="Закрыть меню"
+              >
                 <RxCross2 className="text-xl text-base-content hover:text-primary transition" />
               </label>
             </div>
@@ -85,10 +115,14 @@ export default function NavMobile() {
                 <li key={i}>
                   <Link
                     href={item.href}
-                    className="flex items-center justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content"
-                    onClick={() => document.getElementById("my-drawer").checked = false}
+                    className="flex items-center active:scale-95 duration-300 justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content"
+                    onClick={() =>
+                      (document.getElementById("my-drawer").checked = false)
+                    }
                   >
-                    <span className="flex items-center gap-3">{item.icon} {item.name}</span>
+                    <span className="flex items-center gap-3">
+                      {item.icon} {item.name}
+                    </span>
                     <span className="text-lg font-bold text-base-content">
                       <FaChevronRight className="text-xs" />
                     </span>
@@ -98,14 +132,24 @@ export default function NavMobile() {
             </ul>
           </div>
 
-          <div className="border-t border-base-300 px-4 py-3 space-y-3 text-sm text-base-content">
-              <div className="flex justify-between items-center">
-              <Link href={'/cart'} className="flex items-center justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content text-xl">
-                Корзина
-              </Link>
-              <p className="text-xl text-primary"><TiShoppingCart /></p>
+          <Link
+            href={"/cart"}
+            className="active:scale-95 duration-300 border-base-300 px-7 py-3 space-y-3 text-sm text-base-content"
+          >
+            <div className="flex items-center">
+              <p className="text-xl text-primary">
+                <TiShoppingCart />
+              </p>
+              <div className="flex-1 flex items-center justify-between">
+                <div className="flex items-center justify-between px-4 py-3 hover:bg-base-300 rounded text-base-content text-lg">
+                  Корзина
+                </div>
+                <span className="text-lg font-bold text-base-content">
+                  <FaChevronRight className="text-xs" />
+                </span>
               </div>
-          </div>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
