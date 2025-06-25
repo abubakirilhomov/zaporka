@@ -18,7 +18,7 @@ export default function Footer() {
     <footer className="bg-base-200 text-base-content py-10 px-4">
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:flex md:justify-between gap-8 text-left md:text-center">
         {/* Каталог */}
-        <div className='text-left '>
+        <div className='md:text-left text-center'>
           <h3 className="font-bold uppercase mb-3">Каталог</h3>
           <ul className="space-y-2 text-sm">
             <li><Link href="/products/catalog" className="hover:underline">Смотреть Каталог</Link></li>
@@ -26,7 +26,7 @@ export default function Footer() {
         </div>
 
         {/* О компании */}
-        <div className='text-left'>
+        <div className='md:text-left text-center'>
           <h3 className="font-bold uppercase mb-3">Компания</h3>
           <ul className="space-y-2 text-sm">
             <li><Link href="/about" className="hover:underline">О компании</Link></li>
@@ -35,7 +35,7 @@ export default function Footer() {
         </div>
 
         <div className=''>
-          <h3 className="font-bold text-left uppercase mb-3">Контакты</h3>
+          <h3 className="font-bold md:text-left text-center uppercase mb-3">Контакты</h3>
           <ul className="space-y-3 text-sm ">
             {data?.phoneNumbers?.map((phone, index) => (
               <li key={index} className="flex items-center justify-center md:justify-start gap-2">
@@ -69,8 +69,7 @@ export default function Footer() {
       {/* Подвал */}
       <div className="border-t border-base-300 mt-10 pt-6 text-sm text-center px-2">
         <p>
-          2025 © Запорная арматура.РУ – клапана, задвижки, затворы,
-          <Link href="#" className="text-primary hover:underline ml-1">водоподготовка</Link>,
+          2025 © Запорка.uz – клапана, задвижки, затворы,
           кабель оптом со склада
           <Link href="#" className="text-primary hover:underline ml-1">СПб</Link>
         </p>
