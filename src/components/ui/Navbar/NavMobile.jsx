@@ -29,7 +29,7 @@ export default function NavMobile() {
     { name: "Главная", href: "/", icon: <CgMenuGridO className="text-2xl" /> },
     {
       name: "Каталог",
-      href: "/catalog",
+      href: "/products/catalog",
       icon: <MdCategory className="text-lg text-base-content" />,
     },
     {
