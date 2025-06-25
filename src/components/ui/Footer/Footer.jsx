@@ -16,26 +16,26 @@ export default function Footer() {
 
   return (
     <footer className="bg-base-200 text-base-content py-10 px-4">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center md:text-center">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:flex md:justify-between gap-8 text-left md:text-center">
         {/* Каталог */}
-        <div>
+        <div className='text-left '>
           <h3 className="font-bold uppercase mb-3">Каталог</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#" className="hover:underline">Смотреть Каталог</Link></li>
+            <li><Link href="/products/catalog" className="hover:underline">Смотреть Каталог</Link></li>
           </ul>
         </div>
 
         {/* О компании */}
-        <div>
+        <div className='text-left'>
           <h3 className="font-bold uppercase mb-3">Компания</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#" className="hover:underline">О компании</Link></li>
-            <li><Link href="#" className="hover:underline">Контакты</Link></li>
+            <li><Link href="/about" className="hover:underline">О компании</Link></li>
+            <li><Link href="/contacts" className="hover:underline">Контакты</Link></li>
           </ul>
         </div>
 
         <div className=''>
-          <h3 className="font-bold uppercase mb-3">Контакты</h3>
+          <h3 className="font-bold text-left uppercase mb-3">Контакты</h3>
           <ul className="space-y-3 text-sm ">
             {data?.phoneNumbers?.map((phone, index) => (
               <li key={index} className="flex items-center justify-center md:justify-start gap-2">
