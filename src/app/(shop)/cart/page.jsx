@@ -6,7 +6,7 @@ import {
   updateQuantity,
   clearCart,
 } from "@/redux/slices/cartSlice";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Head from "next/head";
 import { motion, useReducedMotion } from "framer-motion";
 import { useMemo, useState } from "react";
@@ -249,6 +249,7 @@ const CartPage = () => {
             </button>
           </motion.div>
         )}
+        <ToastContainer/>
       </motion.main>
     </>
   );
