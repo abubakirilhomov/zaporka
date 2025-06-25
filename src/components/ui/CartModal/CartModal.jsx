@@ -85,11 +85,11 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             Товар: {currentProduct.title} ({currentProduct?.price} {'UZS'})
           </p>
         )}
-        <form className="space-y-3 text-lg" onSubmit={handleSubmit}>
+        <form className="space-y-3" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Имя"
-            className="input input-primary w-full"
+            className="input input-primary w-full text-lg"
             value={formData.firstName}
             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             required
@@ -97,7 +97,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           <input
             type="text"
             placeholder="Фамилия"
-            className="input input-primary w-full"
+            className="input input-primary w-full text-lg"
             value={formData.lastName}
             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             required
@@ -105,7 +105,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           <div className="relative">
             <input
               type="tel"
-              className="input input-primary tabular-nums w-full"
+              className="input input-primary tabular-nums w-full text-lg"
               placeholder="Телефон +998"
               value={formData.phoneNumber}
               onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
@@ -125,7 +125,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
           <input
             type="text"
             placeholder="Адрес доставки"
-            className="input input-primary w-full"
+            className="input input-primary w-full text-lg"
             value={formData.address}
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             required
@@ -142,7 +142,7 @@ const CartModal = ({ selectedProduct, setSelectedProduct }) => {
             </button>
             <input
               type="number"
-              className="input input-primary w-20 text-center"
+              className="input input-primary w-20 text-center text-lg"
               value={quantity}
               onChange={handleQuantityChange}
               min="1"
