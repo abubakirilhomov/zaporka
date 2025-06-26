@@ -9,7 +9,6 @@ import { FaTelegram } from "react-icons/fa";
 
 const ContactPage = () => {
   const { info, loading, error } = useSelector((state) => state.companyInfo);
-    console.log(info)
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">

@@ -23,7 +23,7 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
         axios
           .get(`${apiUrl}/api/v1/products/search?query=${encodeURIComponent(searchQuery)}`)
           .then((res) => {
-            console.log("Search results:", res.data);
+
             setSearchResults(res.data.results || []);
             setIsLoading(false);
           })

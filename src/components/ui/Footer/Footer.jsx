@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 export default function Footer() {
   const info = useSelector((state) => state.companyInfo);
   const data = info?.info;
-  console.log("Footer data:", data);
+
   return (
     <footer className="bg-base-200 text-base-content py-10 px-4">
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:flex md:justify-between gap-8 text-left md:text-center">
