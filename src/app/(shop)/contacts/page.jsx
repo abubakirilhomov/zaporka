@@ -36,8 +36,8 @@ const ContactPage = () => {
 
       <div className="space-y-4 text-lg leading-relaxed">
         {/* Email */}
-        <div className="p-4 flex justify-between rounded-lg border-b-2 border-primary">
-          <div>
+        <div className="p-4 flex items- flex-col md:justify-between rounded-lg border-b-2 border-primary">
+          <div className="md:mb-0 mb-4">
             <h2 className="font-semibold text-xl mb-2 flex items-center gap-2">
               <MdOutlineMarkEmailUnread
                 className="text-primary"
@@ -47,7 +47,7 @@ const ContactPage = () => {
             </h2>
             <p>{email[0] || "Не указано"}</p>
           </div>
-          <div className="">
+          <div className="md:mb-0 mb-4">
             <h2 className="font-semibold text-xl mb-2 flex items-center gap-2">
               <FaPhoneAlt className="text-primary" aria-hidden="true" />
               Телефон:

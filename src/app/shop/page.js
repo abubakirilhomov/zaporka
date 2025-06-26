@@ -1,8 +1,9 @@
-//app/shop/page.js
+import React from 'react'
 
-import { ToastContainer } from "react-toastify";
-
-
-export default function Page() {
-  return <div>Shop Page</div>;
+const page = () => {
+  return (
+    <div>page</div>
+  )
 }
+
+export default page
