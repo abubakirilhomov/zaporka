@@ -181,7 +181,7 @@ const Page = () => {
 
           {productsLoading && (
             <div className="flex justify-center mt-10">
-              <Loading aria-label="Загрузка товаров" />
+              <Loading height={"30vh"} aria-label="Загрузка товаров" />
             </div>
           )}
 

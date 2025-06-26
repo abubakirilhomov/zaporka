@@ -15,7 +15,7 @@ const Catalog = () => {
         <h1 className="text-3xl font-bold">Каталог</h1>
         <p className="text-neutral-400 pt-2">Главная - Каталог</p>
 
-        {loading && <Loading />}
+        {loading && <Loading height={"0vh"}/>}
         {error && (
           <p className="mt-10 text-error">
             Ошибка загрузки категорий: {error.message || 'Неизвестная ошибка'}
