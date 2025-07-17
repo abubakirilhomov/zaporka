@@ -14,7 +14,7 @@ export default function useFetch(url, options = {}) {
 
     try {
       setLoading(true);
-      setError(null); // Сброс ошибки перед новым запросом
+      setError(null);
       const response = await axios.get(url, {
         signal: controller.signal,
         ...options,

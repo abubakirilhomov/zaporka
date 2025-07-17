@@ -51,7 +51,7 @@ const BannerPage = () => {
 
     fetchSlides();
   }, [baseURL]);
-
+  console.log("Slides:", slides);
   return (
     <div className="relative w-full">
       {loading ? (
@@ -72,17 +72,17 @@ const BannerPage = () => {
             nextEl: ".swiper-button-next-banner",
             prevEl: ".swiper-button-prev-banner",
           }}
-          className="w-full h-[400px] sm:h-[500px] rounded-2xl"
+          className="w-full h-[400px] sm:h-[500px]"
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="w-full h-full relative rounded-2xl bg-center bg-cover"
+                className="w-full h-full relative bg-center bg-cover"
                 style={{
                   backgroundImage: `url(${slide?.image || "/placeholder-image.png"})`,
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-base-300 to-base/20 rounded-2xl flex flex-col items-center justify-center p-6 text-center">
+                <div className="absolute inset-0 bg-gradient-to-tr from-base-300 to-base/20 flex flex-col items-center justify-center p-6 text-center">
                   <h2 className="text-3xl sm:text-5xl font-extrabold drop-shadow mb-6">
                     {slide.title}
                   </h2>
