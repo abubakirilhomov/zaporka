@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     domains: ['zaporka-backend.onrender.com'],
   },
-  serverExternalPackages: [], // <--- сюда перенесено
+  serverExternalPackages: [],
 };
 
 export default nextConfig;

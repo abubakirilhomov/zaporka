@@ -5,7 +5,7 @@ import Loading from '@/components/ui/Loading/Loading';
 import useFetch from '@/hooks/useFetch/useFetch';
 
 const Catalog = () => {
-  const serverUrl = 'https://zaporka-backend.onrender.com';
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   const { data: categories, loading, error } = useFetch(`${serverUrl}/api/v1/categories`);
 
   return (
