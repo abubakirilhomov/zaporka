@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 const CatalogCard = ({ categories, serverUrl }) => {
+ 
   return (
     <div className="md:gap-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-1">
       {categories.map((category) => {

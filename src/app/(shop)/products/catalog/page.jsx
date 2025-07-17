@@ -22,7 +22,7 @@ const Page = () => {
       {!loading && !error && (
         <div className="mt-10">
           {categories && categories.length > 0 ? (
-            <CatalogCard categories={categories} />
+            <CatalogCard serverUrl={serverUrl} categories={categories} />
           ) : (
             <p className="text-neutral-500">Категории не найдены</p>
           )}
