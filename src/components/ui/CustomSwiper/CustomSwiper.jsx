@@ -51,7 +51,7 @@ const BannerPage = () => {
 
     fetchSlides();
   }, [baseURL]);
-  console.log("Slides:", slides);
+
   return (
     <div className="relative w-full">
       {loading ? (
