@@ -23,6 +23,7 @@ import { TbBrandBulma } from "react-icons/tb";
 export default function NavMobile({ info }) {
   const phoneNumber = info?.phoneNumbers[0] || "999001507";
   const telegramLink = info?.telegram || "https://t.me/DoniyorSamadov";
+  console.log(telegramLink)
 
   const pages = [
     { name: "Главная", href: "/", icon: <CgMenuGridO className="text-2xl" /> },
@@ -78,7 +79,7 @@ export default function NavMobile({ info }) {
               <IoMdCall className="text-xl text-success" aria-hidden="true" />
             </a>
             <a
-              href={telegramLink}
+              href={`${telegramLink}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-base-300 p-2 rounded-2xl"
