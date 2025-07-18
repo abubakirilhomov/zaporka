@@ -82,9 +82,9 @@ const BannerPage = () => {
                   backgroundImage: `url(${slide?.image || "/placeholder-image.png"})`,
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-base-300 to-base/20 flex flex-col items-center justify-center p-6 text-center">
-                  <h2 className="text-3xl sm:text-5xl font-extrabold drop-shadow mb-6">
-                    {slide.title}
+                <div className="absolute inset-0 bg-none flex flex-col items-center justify-center p-6 text-center">
+                  <h2 className="text-3xl sm:text-5xl font-extrabold mb-6">
+                    {slide.title || ""}
                   </h2>
                 </div>
               </div>
