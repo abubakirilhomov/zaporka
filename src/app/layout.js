@@ -22,6 +22,9 @@ export const metadata = {
   openGraph: {
     title: "Zaporka - Лучшие трубы для бизнеса",
     description: "Широкий ассортимент труб с доставкой.",
+    icons: {
+    icon: "/favicon.svg",
+  },
     url: "https://zaporka.uz",
     siteName: "Zaporka",
     images: [
