@@ -135,7 +135,10 @@ const CartPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          products: cartItems.map((item) => item.id),
+          products: cartItems.map((item) => ({
+            product: item.id,
+            quantity: item.quantity,
+          })),
           ...userData,
           totalPrice,
         }),

@@ -11,37 +11,38 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
   const searchRef = useRef(null);
+  const apiUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
-  // Debounced search
+  // Поиск с debounce
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      if (searchQuery) {
-        setIsLoading(true);
-        setError(null);
-        axios
-          .get(`${apiUrl}/api/v1/products/search?query=${encodeURIComponent(searchQuery)}`)
-          .then((res) => {
-
-            setSearchResults(res.data.results || []);
-            setIsLoading(false);
-          })
-          .catch((err) => {
-            console.error(err);
-            setError("Ошибка при поиске");
-            setIsLoading(false);
-          });
-      } else {
+      if (!searchQuery.trim()) {
         setSearchResults([]);
         setIsLoading(false);
+        return;
       }
+
+      setIsLoading(true);
+      setError(null);
+
+      axios
+        .get(`${apiUrl}/api/v1/products/search?query=${encodeURIComponent(searchQuery.trim())}`)
+        .then((res) => {
+          setSearchResults(res.data.results || []);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError("Ошибка при поиске");
+          setIsLoading(false);
+        });
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery, apiUrl]);
+  }, [searchQuery]);
 
-  // Handle click outside to close dropdown
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -53,22 +54,29 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
   }, []);
 
   const handleSearch = (e) => {
-    if (e.key === "Enter" && searchQuery && mobile) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-      setSearchResults([]); // Clear results after navigation
+    if (e.key === "Enter" && searchQuery.trim()) {
+      if (mobile) {
+        router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        setSearchResults([]);
+      }
     }
+  };
+
+  const handleResultClick = () => {
+    setSearchQuery("");
+    setSearchResults([]);
   };
 
   return (
     <div className={`relative ${className}`} ref={searchRef}>
-      <label className="input border rounded-sm flex items-center h-10 border-primary bg-base-100 w-full">
+      <label className="input border border-primary rounded-sm flex items-center h-10 bg-base-100 w-full">
         <input
           type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleSearch}
           placeholder="Поиск товаров..."
-          className="text-base-content text-lg bg-transparent focus:outline-none w-full"
+          className="text-base-content text-lg bg-transparent focus:outline-none w-full px-2"
           aria-label="Поиск товаров"
         />
         <svg
@@ -82,25 +90,31 @@ export default function SearchInput({ onSearch, className = "", mobile = false }
           </g>
         </svg>
       </label>
+
+      {/* Выпадающий список результатов */}
       {!mobile && (
-        <>
-          {isLoading && <div className="absolute top-12 left-0 p-2 bg-base-100 w-full shadow rounded">Загрузка...</div>}
-          {error && <div className="absolute top-12 left-0 p-2 bg-base-100 w-full shadow rounded text-error">{error}</div>}
-          {searchResults.length > 0 && !isLoading && !error && (
-            <div className="absolute top-12 left-0 bg-base-100 w-full shadow rounded max-h-64 overflow-y-auto z-50">
+        <div className="absolute top-12 left-0 w-full z-50">
+          {isLoading && (
+            <div className="p-2 bg-base-100 shadow rounded text-sm">Загрузка...</div>
+          )}
+          {error && (
+            <div className="p-2 bg-base-100 shadow rounded text-error text-sm">{error}</div>
+          )}
+          {!isLoading && !error && searchResults.length > 0 && (
+            <div className="bg-base-100 shadow rounded max-h-64 overflow-y-auto border border-base-200">
               {searchResults.map((item, i) => (
                 <Link
-                  key={item.id || i}
+                  key={item._id || i}
                   href={`/products/product/${item._id}`}
-                  className="block p-2 border-b border-base-200 hover:bg-base-200"
-                  onClick={() => setSearchResults([])}
+                  onClick={handleResultClick}
+                  className="block p-2 hover:bg-base-200 border-b border-base-200"
                 >
-                  {item.title || item.name}
+                  {item.title || item.name || "Без названия"}
                 </Link>
               ))}
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );
