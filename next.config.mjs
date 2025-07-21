@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['zaporka-backend.onrender.com'],
+    domains: ['zaporka-backend.onrender.com', "zaporka.uz", "api.zaporka.uz"],
   },
   serverExternalPackages: [],
 };
