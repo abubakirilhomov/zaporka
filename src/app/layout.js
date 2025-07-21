@@ -14,25 +14,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+Collapse
+
+Wrap
+
+Copy
 export const metadata = {
-  title: "Zaporka - Лучшие трубы для бизнеса",
+  title: "Zaporka - Трубы и запорная арматура в Узбекистане",
   description:
-    "Компания Ideal Import предлагает широкий выбор труб высокого качества. Доставка по всей стране.",
-  keywords: "трубы, продажа труб, металлические трубы, строительные материалы",
+    "Zaporka предлагает качественные трубы и запорную арматуру для бизнеса в Узбекистане. Доставка по всей стране.",
+  keywords: "zaporka, запорка, трубы, запорная арматура, строительные материалы, Узбекистан",
   openGraph: {
-    title: "Zaporka - Лучшие трубы для бизнеса",
-    description: "Широкий ассортимент труб с доставкой.",
-    icons: {
-    icon: "/favicon.svg",
-  },
+    title: "Zaporka - Трубы и запорная арматура",
+    description: "Широкий ассортимент труб и запорной арматуры с доставкой по Узбекистану.",
     url: "https://zaporka.uz",
     siteName: "Zaporka",
     images: [
       {
-        url: "https://idealimport.com/og-image.jpg",
+        url: "https://zaporka.uz/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Zaporka - трубы",
+        alt: "Zaporka - трубы и запорная арматура",
       },
     ],
     type: "website",
