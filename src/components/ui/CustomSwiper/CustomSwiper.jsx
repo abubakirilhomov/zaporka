@@ -56,7 +56,7 @@ const BannerPage = () => {
     <div className="relative w-full">
       {loading ? (
         <div className="h-[400px] sm:h-[500px] flex items-center justify-center">
-          <span className="loading loading-bars loading-lg text-primary"></span>
+          <span className="loading loading-spinner loading-lg"></span>
         </div>
       ) : (
         <Swiper
