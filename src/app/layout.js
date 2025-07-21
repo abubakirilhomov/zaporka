@@ -14,11 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-Collapse
-
-Wrap
-
-Copy
 export const metadata = {
   title: "Zaporka - Трубы и запорная арматура в Узбекистане",
   description:
