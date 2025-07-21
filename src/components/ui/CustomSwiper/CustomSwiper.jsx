@@ -36,7 +36,7 @@ const BannerPage = () => {
 
           return {
             image: imageUrl,
-            title: item.title || 'Новинка',
+            title: item.title || '',
             link: item.link || null,
           };
         });

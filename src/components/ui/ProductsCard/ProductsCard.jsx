@@ -18,11 +18,10 @@ const ProductCard = ({
   const dispatch = useDispatch();
   const productId =
     product._id || product.id || `${product.title}-${product.price}-${index}`;
-  const imageSrc = `${process.env.NEXT_PUBLIC_SERVER_URL}${product.images}` || '/placeholder-image.png';
+  const imageSrc = `${process.env.NEXT_PUBLIC_SERVER_URL}${product?.images[0]}` || '/placeholder-image.png';
   const altText = product.title
     ? `Изображение ${product.title}`
     : 'Изображение товара';
-
   return (
     <motion.div {...motionProps} className="flex">
       <div className="relative flex flex-col items-center w-full">

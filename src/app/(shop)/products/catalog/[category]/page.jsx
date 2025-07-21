@@ -12,7 +12,7 @@ import CartModal from '@/components/ui/CartModal/CartModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedProduct, addToCart } from '@/redux/slices/cartSlice';
 import { BsCartPlus } from 'react-icons/bs';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import CatalogSidebar from '@/components/ui/CatalogSidebar/CatalogSidebar';
 import Pagination from '@/components/ui/Pagination/Pagination';
 
@@ -23,13 +23,11 @@ const Page = () => {
   const dispatch = useDispatch();
   const { selectedProduct, userData } = useSelector((state) => state.cart);
 
-  // Получение продуктов по категории
   const { data: products, loading: productsLoading, error: productsError, refetch } = useFetch(
     `${serverUrl}/api/v1/products/by-category/${category}`,
     {}
   );
 
-  // Получение списка категорий
   const { data: categories, loading: categoriesLoading, error: categoriesError } = useFetch(
     `${serverUrl}/api/v1/categories`,
     {}
@@ -38,7 +36,7 @@ const Page = () => {
   const [imageErrors, setImageErrors] = useState({});
   const [isRefetching, setIsRefetching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8; // Количество продуктов на странице
+  const productsPerPage = 8;
 
   const initializeImageErrors = useCallback(() => {
     if (!products) return;
@@ -121,7 +119,6 @@ const Page = () => {
     );
   }
 
-  // Логика пагинации
   const totalProducts = products ? products.length : 0;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
@@ -129,6 +126,7 @@ const Page = () => {
   const currentProducts = products ? products.slice(startIndex, endIndex) : [];
 
   const decodedCategory = decodeURIComponent(category);
+  console.log(products)
   return (
     <>
       <Head>
@@ -244,7 +242,7 @@ const Page = () => {
                       />
                     ))}
                   </div>
-                  {/* Используем компонент Pagination */}
+
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
